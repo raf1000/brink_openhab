@@ -27,9 +27,9 @@ The converter comminicates with openHAB via MQTT protocol. The  physical connect
 
 # Some notes:
 1. Accoroding to OpenTherm protocol version specification 2.2 :
-    (a) The master must communicate at least every 1 sec (+15% tolerance) . 
+-   The master must communicate at least every 1 sec (+15% tolerance) . 
             This is probably true for a heating appliance but in case of connection with Brink Renovent only I have noticed that communication works also when a conversation  
             frames are sent with longer interval (ex 10 sec). In the program I have set 1.5 sec.
-    (b) It is required that OpenTherm-compliant devices support the following data items: ID=0, ID=1, ID=3. 
+-   It is required that OpenTherm-compliant devices support the following data items: ID=0, ID=1, ID=3. 
             This is probably true for a heating appliance but in case of connection with Brink Renovent only these messages are not needed (and Brink as an ventilation device               does not reocgnise them)   
 2.  
