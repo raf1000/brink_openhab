@@ -1,8 +1,14 @@
+/* Openhab - Brink Renovent HR Integration
+Author: Raf1000
+December 2021
+*/
+
 #include <Arduino.h>
 #include <OpenTherm.h>
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
+// this part schall be changed ----------------------------------
 const char* ssid = "SET SSID of YOUR NETWORK";
 const char* password = "PASSWORD";
 
@@ -11,7 +17,7 @@ const char* mqtt_client_id = "brink"; // Unique client id
 const int mqtt_Port = 1883; 
 const char* mqtt_User = "SET MQTT USER"; 
 const char* mqtt_Password = "SET MQTT PASSWORD"; 
-
+// ---------------------------------------------------------------
 const char* mqtt_topic_in = "brink/+/set"; //subscribe commands from Openhab
 
 unsigned long startTime;
