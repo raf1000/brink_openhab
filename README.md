@@ -20,8 +20,8 @@ The converter comminicates with openHAB via MQTT protocol. The  physical connect
 
 * Install MQTT Broker (mosquitto)
 * Install MQTT binding in openHAB 
-* Create items:  [brink.items]() file
-* Create MQTT client: *Brink_MQT_Client* file
-* Create sitemap: attached  *brink.sitemap* file (appart from data from Brink includes data from additional sensors)
+* Create items:  [brink.items](https://github.com/raf1000/brink_openhab/blob/main/openHAB/brink.items) file
+* Create MQTT client [Brink_MQT_Client](https://github.com/raf1000/brink_openhab/blob/main/openHAB/Brink_MQTT_Client)
+* Create sitemap: [brink.sitemap] (https://github.com/raf1000/brink_openhab/blob/main/openHAB/brink.sitemap) file /*appart from data from Brink includes data from additional sensors*/
 
 
