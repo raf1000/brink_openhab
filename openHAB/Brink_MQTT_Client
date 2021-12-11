@@ -1,0 +1,147 @@
+UID: mqtt:topic:mosquitto:2bab1fbfa2
+label: Brink MQTT Client
+thingTypeUID: mqtt:topic
+configuration: {}
+bridgeUID: mqtt:broker:mosquitto
+channels:
+  - id: temp_from_atmo
+    channelTypeUID: mqtt:number
+    label: Temperature from atmosphere
+    description: ""
+    configuration:
+      stateTopic: brink/TempSupplyIn/get
+  - id: temp_from_indoors
+    channelTypeUID: mqtt:number
+    label: Temperature from indoors
+    description: ""
+    configuration:
+      stateTopic: brink/TempExhIn/get
+  - id: fault_indication
+    channelTypeUID: mqtt:switch
+    label: Fault Indication
+    description: ""
+    configuration:
+      stateTopic: brink/FauiltIndication/get
+      off: "0"
+      on: "1"
+  - id: ventilation_nominal_value
+    channelTypeUID: mqtt:dimmer
+    label: Set Ventilation Nomnal Value
+    description: ""
+    configuration:
+      commandTopic: brink/VentNomValue/set
+  - id: filter_dirty
+    channelTypeUID: mqtt:switch
+    label: Filter Dirty
+    description: ""
+    configuration:
+      stateTopic: brink/FilterDirty/get
+      off: "0"
+      on: "1"
+  - id: bypass_status
+    channelTypeUID: mqtt:contact
+    label: Bypass Status
+    description: ""
+    configuration:
+      stateTopic: brink/BypassStaus/get
+      off: "0"
+      on: "1"
+  - id: ventilation_mode
+    channelTypeUID: mqtt:switch
+    label: Ventilation mode
+    description: ""
+    configuration:
+      stateTopic: brink/VentilationMode/get
+      off: "0"
+      on: "1"
+  - id: curr_pressure_inpuct_duct
+    channelTypeUID: mqtt:number
+    label: Current pressure Input duct
+    description: ""
+    configuration:
+      stateTopic: brink/CPID/get
+  - id: curr_pressure_output_duct
+    channelTypeUID: mqtt:number
+    label: Current pressure Output duct
+    description: ""
+    configuration:
+      stateTopic: brink/CPOD/get
+  - id: fault_code
+    channelTypeUID: mqtt:number
+    label: Fault code
+    description: ""
+    configuration:
+      stateTopic: brink/FaultCode/get
+  - id: curr_ventilation_volume
+    channelTypeUID: mqtt:number
+    label: Current ventilation volume
+    description: ""
+    configuration:
+      stateTopic: brink/CurrentVolume/get
+  - id: U1
+    channelTypeUID: mqtt:number
+    label: Volume step 1
+    description: ""
+    configuration:
+      stateTopic: brink/U1/get
+  - id: U2
+    channelTypeUID: mqtt:number
+    label: Volume step 2
+    description: ""
+    configuration:
+      stateTopic: brink/U2/get
+  - id: U3
+    channelTypeUID: mqtt:number
+    label: Volume step 3
+    description: ""
+    configuration:
+      stateTopic: brink/U3/get
+  - id: U4
+    channelTypeUID: mqtt:number
+    label: Minimum outside temperature bypass
+    description: ""
+    configuration:
+      commandTopic: brink/U4/set
+      min: 5
+      stateTopic: brink/U4/get
+      max: 20
+  - id: U5
+    channelTypeUID: mqtt:number
+    label: Minimum indoor temperature bypass
+    description: ""
+    configuration:
+      commandTopic: brink/U5/set
+      min: 18
+      stateTopic: brink/U5/get
+      max: 30
+  - id: hw_circulation_pump
+    channelTypeUID: mqtt:switch
+    label: Hot Water circulation pump
+    description: ""
+    configuration:
+      commandTopic: brink/HWCP/set
+      retained: false
+      qos: 0
+      stateTopic: brink/HWCP/get
+      off: "0"
+      on: "1"
+  - id: bypass_position
+    channelTypeUID: mqtt:contact
+    label: Bypass position
+    description: ""
+    configuration:
+      stateTopic: brink/BypassPosition/get
+      off: "0"
+      on: "1"
+  - id: bypass_change
+    channelTypeUID: mqtt:string
+    label: Bypass Message Change (option)
+    description: ""
+    configuration:
+      stateTopic: brink/OpenThermStatus/get
+  - id: wifi_signal
+    channelTypeUID: mqtt:number
+    label: Wifi signal strength
+    description: ""
+    configuration:
+      stateTopic: brink/Wifi/get
