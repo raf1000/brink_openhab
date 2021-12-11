@@ -1,1 +1,24 @@
+//Brink Renovent HR
+Switch          Brink_VentilationMode           "Ventilation mode [%s]"                 <ventilationrec>  (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:ventilation_mode"}
+Contact         Brink_BypassStatus              "Bypass status[%s]"                     <bypass1>         (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:bypass_status" }
+Switch          Brink_FaultIndication           "Fault !"                               <error1>          (gBrink,gAlarm)                                 {channel="mqtt:topic:mosquitto:2bab1fbfa2:fault_indication"}
+Number          Brink_FaultCode                 "Fault code"                            <error>           (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:fault_code"}
+Switch          Brink_FilterCheck               "Filter check [%s]"                     <airfilter1>      (gBrink,gAlarm)                                 {channel="mqtt:topic:mosquitto:2bab1fbfa2:filter_dirty"}
+String        	Brink_BypassMessage             "Bypass position change [%s]"           <info>            (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:bypass_change"}
+Number          Brink_SupplyInletTemp           "GHE => Brink [%.1f °C]"                <temperature>     (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:temp_from_atmo"}
+Number          Brink_Ventiltion_Speed          "Current vent. capacity [%d m³/h]"      <ventilationcapacity1>(gBrink)                                    {channel="mqtt:topic:mosquitto:2bab1fbfa2:curr_ventilation_volume"}
+Number          Brink_ExhaustInletTemp          "Indoor => Brink [%.1f °C]"             <temperature>     (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:temp_from_indoors"}
+Number          Brink_CPID                      "Current preassure input duct [%s Pa]"  <pressure>        (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:curr_pressure_inpuct_duct"}
+Number          Brink_CPOD                      "Current preassure input duct [%s Pa]"  <pressure>        (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:curr_pressure_output_duct"}
+//Number          Brink_ActualExhaustFanSpeed     "ActualExhaustFanSpeed [%d rpm]" 
+//Number          Brink_ActualInletFanSpeed       "ActualInletFanSpeed [%d rpm]" 
+Number          Brink_U1                        "Low [%d m³/h]"                         <setu1>           (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:U1"}
+Number          Brink_U2                        "Mid [%d m³/h]"                         <setu2>           (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:U2"}
+Number          Brink_U3                        "High [%d m³/h]"                        <setu3>           (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:U3"}                
+Number          Brink_U4                        "Min outside temp [%d °C]"              <setu4>           (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:U4"}
+Number          Brink_U5                        "Min indoor temp [%d °C]"               <setu5>           (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:U5"}
+Dimmer          Brink_VentilationSetpoint       "Set relative ventilation [%d %%]"      <ventilationset2> (gBrink,gRestore)                               {channel="mqtt:topic:mosquitto:2bab1fbfa2:ventilation_nominal_value"}
+Number          Brink_Wifi                      "RSSI [%d dBm]"                         <wifi1>           (gBrink)                                        {channel="mqtt:topic:mosquitto:2bab1fbfa2:wifi_signal"}
+//Floor circulation pump option
+Switch          HWCP_Switch                     "Floor circulation"                     <switch>          (gVaillant)                                     {channel="mqtt:topic:mosquitto:2bab1fbfa2:hw_circulation_pump"}
 
