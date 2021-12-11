@@ -12,8 +12,8 @@ The converter comminicates with openHAB via MQTT protocol. The  physical connect
 
 # Converter set up (Arduino):
 
-* Install and run arduino IDE to (change the code if needed) compile and upload programs to Wemos D1 mini
-* The arduino Brink_2 program is locate in .src library
+Install and run arduino IDE to (change the code if needed) compile and upload programs to Wemos D1 mini
+* The arduino Brink_2 program: 
 * The arduino Brink_2 program uses the "OpenTherm.h" library specified at  https://github.com/ihormelnyk/opentherm_library. This library is a part of Arduino IDE library and provides OpenTherm communication protocol plus some methods for heating appliances. However it does not include methods nor variables for ventilation/Brink Renovnet appliances therefore you need to change the standard "OpenTherm.h" library based on the extended copy ( part changed commeted with "Brink Renovent HR") or used directly the files from this repository instead of the standard "OpenTherm.h" library.
 
 # openHAB set up:
@@ -28,8 +28,8 @@ The converter comminicates with openHAB via MQTT protocol. The  physical connect
 # Some notes:
 1. Accoroding to OpenTherm protocol version specification 2.2 :
 -   *The master must communicate at least every 1 sec (+15% tolerance).* 
-            This is probably true for a heating appliance but in case of connection with Brink Renovent only I have noticed that communication works also when a conversation  
-            frames are sent with longer interval (ex 10 sec). In the program I have set 1.5 sec.
+            This is probably true for a heating appliance but in case of connection with Brink Renovent only I have noticed that communication works also when conversation  
+            frames are sent with longer interval (ex 10 sec). In the program I have set OT communcation frequency at 1.5 sec.
 -   *It is required that OpenTherm-compliant devices support the following data items (Message Ids): ID=0, ID=1, ID=3.*
             This is probably true for a heating appliance but in case of connection with Brink Renovent only these messages are not needed (and Brink as a ventilation device               does not recognise them)   
 2.  In order reduce traffic of incoming events in openHAB, the Converter sends message to openHAB only upon "significant" changes of parameters/values in Brink. For example         current pressure in input/output duct is changing constantly by 1Pa but converter udpate the current preasure value in openHAB only if the change is bigger than 2Pa.
@@ -37,7 +37,8 @@ The converter comminicates with openHAB via MQTT protocol. The  physical connect
 4.  I have noticed that Opentherm protocol connection can work in parallel with multiple switch (3 way switch). After switching from  U1 to U2/U3, the 3 way switch overrides the ventilation capacity set up by OpenTherm.
 5.  After restarting openHAB it might be needed to reset converter in order to populate slow changing parameters. Repopulation of parameters can also be done by changing U5 parameter visible in sitemap.
 6.  Automatic Bypass (mounted as standard)
-- 
+- Seems that none of the standard bits (LB2, LB3, HB1, HB2) of the Msg=70 (OT protocol) is updated by Brink Renovent when bypass position is changed. But I have identified a TSP which conveys such information and it is implemented in the program.
+- Another issue that bypass position does not change when OpenTherm protocol is connected to the Brink Renovent despite the U4 and U5 conditions are met! I have implemented a workaround in which OpenTherm protocol is disconnected for 1.5/3 minuts in order to open/close bypass. 
 
 
 
