@@ -12,13 +12,19 @@ The converter comminicates with openHAB via MQTT protocol. The  physical connect
 
 # Converter set up (Arduino):
 
-Install and run arduino IDE to (change the code if needed) compile and upload programs to Wemos D1 mini
-* The arduino Brink_2 program: 
-* The arduino Brink_2 program uses the "OpenTherm.h" library specified at  https://github.com/ihormelnyk/opentherm_library. This library is a part of Arduino IDE library and provides OpenTherm communication protocol plus some methods for heating appliances. However it does not include methods nor variables for ventilation/Brink Renovnet appliances therefore you need to change the standard "OpenTherm.h" library based on the extended copy ( part changed commeted with "Brink Renovent HR") or used directly the files from this repository instead of the standard "OpenTherm.h" library.
+* Install and run arduino IDE, connect to Wemos D1 mini via USB.
+* Upload brink_hr program: [Brink_HR.ino](https://github.com/raf1000/brink_openhab/blob/main/Arduino/Brink_HR.ino) to arduino IDE
+* Specify network and mqtt parameters in the brink_hr program.
+* The additional libraries shall be installed as specified in the program: *<OpenTherm.h>*, *<ESP8266WiFi.h>*, *<PubSubClient.h>*
+
+<OpenTherm.h> library specified at  https://github.com/ihormelnyk/opentherm_library is a part of Arduino IDE library and provides OpenTherm communication protocol plus some methods for heating appliances. However it does not include methods nor variables for ventilation/Brink Renovent appliances. The following files include Brink Renovent HR relevant additions:
+Updated [OpenTherm.h](https://github.com/raf1000/brink_openhab/blob/main/Arduino/OpenTherm.h)
+Updated [OpenTherm.cpp](https://github.com/raf1000/brink_openhab/blob/main/Arduino/OpenTherm.cpp)
+You can use them instead of the original <OpenTherm.h> library or make changes to the arduino IDE library (copy parts commeted as "Brink Renovent HR") .
 
 # openHAB set up:
 
-* Install MQTT Broker (mosquitto)
+* Install and set up MQTT Broker (mosquitto)
 * Install MQTT binding in openHAB 
 * Create items :  [brink.items](https://github.com/raf1000/brink_openhab/blob/main/openHAB/brink.items) file
 * Create MQTT client with channels : [Brink_MQT_Client](https://github.com/raf1000/brink_openhab/blob/main/openHAB/Brink_MQTT_Client) file
