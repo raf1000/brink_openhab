@@ -12,7 +12,7 @@
                 Default  item=Brink_VentilationMode
                 Default  item=Brink_BypassStatus valuecolor=[OPEN="green"] visibility=[Brink_BypassMessage != "WAIT"]
                 Default  item=Brink_BypassMessage     valuecolor=[WAIT="yellow"] visibility=[Brink_BypassMessage == "WAIT" ]
-                Setpoint item=Brink_VentilationSetpoint minValue=20 maxValue=100 step=5 visibility=[ST_Brink_Level < 2] 
+                Setpoint item=Brink_VentilationSetpoint minValue=20 maxValue=100 step=5 
                 Default  item=Brink_Ventiltion_Speed 
                 Default  item=Brink_FilterCheck
 
@@ -22,10 +22,8 @@
                 Default  item=Brink_FaultIndication visibility=[Brink_FaultIndication == ON]
                 Default  item=Brink_FaultCode visibility=[Brink_FaultIndication == ON]
                 Default  item=Brink_U1 
-                Default  item=Brink_U2  visibility=[ST_Brink_Level != 2]  
-                Default  item=Brink_U2  visibility=[ST_Brink_Level == 2]  valuecolor=["red"] labelcolor=["red"]
-                Default  item=Brink_U3  visibility=[ST_Brink_Level != 3]  
-                Default  item=Brink_U3  visibility=[ST_Brink_Level == 3]  valuecolor=["orange"] labelcolor=["orange"]
+                Default  item=Brink_U2  
+                Default  item=Brink_U3 
                 Setpoint item=Brink_U4  minValue=5 maxValue=20 step=1
                 Setpoint item=Brink_U5  minValue=18 maxValue=30 step=1
                 Default  item=Brink_Wifi valuecolor=[>-68="limone", <-70="orange", <-79="red"]
