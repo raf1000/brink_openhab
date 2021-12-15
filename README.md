@@ -14,13 +14,15 @@ The converter comminicates with openHAB via MQTT protocol. The  physical connect
 
 * Install and run arduino IDE, connect to Wemos D1 mini via USB.
 * Upload brink_hr program: [Brink_HR.ino](https://github.com/raf1000/brink_openhab/blob/main/Arduino/Brink_HR.ino) to arduino IDE
-* Specify network and mqtt parameters in the brink_hr program.
-* The additional libraries shall be installed as specified in the program: *<OpenTherm.h>*, *<ESP8266WiFi.h>*, *<PubSubClient.h>*
+* Specify network and mqtt parameters in the Brink_HR program. Perform changes in the code if you want addtional TSP to be avilable.
+* The additional libraries shall be installed as specified in the program including: *<OpenTherm.h>*, *<ESP8266WiFi.h>*, *<PubSubClient.h>*
 
-<OpenTherm.h> library specified at  https://github.com/ihormelnyk/opentherm_library is a part of Arduino IDE library and provides OpenTherm communication protocol plus some methods for heating appliances. However it does not include methods nor variables for ventilation/Brink Renovent appliances. The following files include Brink Renovent HR relevant additions:
+<OpenTherm.h> library specified at  https://github.com/ihormelnyk/opentherm_library is a part of Arduino IDE library and provides OpenTherm communication protocol plus few methods for heating appliances. However it does not include methods nor variables for ventilation/Brink Renovent appliances. Therefore you need to use the following files which includes Brink Renovent HR relevant additions:
 Updated [OpenTherm.h](https://github.com/raf1000/brink_openhab/blob/main/Arduino/OpenTherm.h)
 Updated [OpenTherm.cpp](https://github.com/raf1000/brink_openhab/blob/main/Arduino/OpenTherm.cpp)
-You can use them instead of the original <OpenTherm.h> library or make changes to the arduino IDE library (copy parts commeted as "Brink Renovent HR") .
+You can use the above files directly instead of the original <OpenTherm.h> library or make changes to the arduino IDE library (copy parts commeted as "Brink Renovent HR" from updated files) .
+ 
+ * Upload the compiled Brink_HR progrm to wemos D1 mini. Connect wemos D1 mini to the converter and Brink Renovent HR
 
 # openHAB set up:
 
