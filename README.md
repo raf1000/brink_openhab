@@ -8,7 +8,7 @@ The following "converter" shall be placed between Brink Renovent HR and openHAB:
 
 The converter communicates with Brink Renovent HR via OpenTherm protocol. The physical connection via two wire cable.
 
-The converter comminicates with openHAB via MQTT protocol. The  physical connection via Wifi.
+The converter communicates with openHAB via MQTT protocol. The physical connection via Wifi.
 
 # Converter set up (Arduino):
 
