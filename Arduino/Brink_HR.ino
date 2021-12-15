@@ -17,6 +17,7 @@ const char* mqtt_client_id = "brink"; // Unique client id
 const int mqtt_Port = 1883; 
 const char* mqtt_User = "SET MQTT USER"; 
 const char* mqtt_Password = "SET MQTT PASSWORD"; 
+const int maxVent = 2.49 ; //it means 249 m/h3
 // ---------------------------------------------------------------
 const char* mqtt_topic_in = "brink/+/set"; //subscribe commands from Openhab
 
@@ -260,7 +261,7 @@ void ReadBrinkParameters()
 
   gvent =  ot.getVentilation();
   if (gvent != gvent_old) {
-      mqttClient.publish("brink/VentilationNominalValue/get", String(gvent * 2.49).c_str());
+      mqttClient.publish("brink/VentilationNominalValue/get", String(gvent * maxVent).c_str());
       gvent_old = gvent;
   }
 
