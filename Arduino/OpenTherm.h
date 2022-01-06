@@ -141,21 +141,23 @@ enum BrinkTSPindex {
 	U1, 		// Volume Step 1
 	U2 = 2, 	// Volume Step 2
 	U3 = 4,		// Volume Step 3
-	U4 = 6,     // Minimum atmospheric temperature bypass (value multiplied *2, ex 15C <=> 30)
-	U5,         // Minimum indor temperature bypass (value multiplied *2)
-	U8 = 10,   	// Not applicable
+	U4 = 6,     	// Minimum atmospheric temperature bypass (value multiplied *2, ex 15C <=> 30)
+	U5 = 7,        	// Minimum indor temperature bypass (value multiplied *2)
+	U6,		//option PCB: postheater temp seting
+	U7,		//option PCB: freely programmable contact inputs mode
+	U8,  	 	// Not applicable
 	I1,        	// Fixed imbalance (value shifted by 100, ex 100 <=> 0)
-	I2,			// No contact step			
-	I3,			// not applicable
-	I4,			// Switch line step 1
-	I5,			// Switch line step 2
-	I6,			// Switch line step 3
-	I7,			// Imbalance permissible
-	I8,			// Bypass mode
-	I9,			// Hysteresis bypass
+	I2,		// No contact step			
+	I3,		// not applicable
+	I4,		// Switch line step 1
+	I5,		// Switch line step 2
+	I6,		// Switch line step 3
+	I7,		// Imbalance permissible
+	I8,		// Bypass mode
+	I9,		// Hysteresis bypass
 	I10,		// Constand pressure switched off
 	I11,		// Preheater (0-3), o = no preheater
-   	I12,        // Offset temperature preheater(value shifted by 60, 60 <=> 0, 61 <=> 0.5)
+   	I12,        	// Offset temperature preheater(value shifted by 60, 60 <=> 0, 61 <=> 0.5)
 	I13,		// Filter message on/off (1=on)
 	I14,		// Option PCB present (0 = no)
 	I15,		// Heat recovery configuration (0=heat recovery, 1 = central heating + heat recovery)
@@ -163,7 +165,25 @@ enum BrinkTSPindex {
 	I17,		// Repeat time (hours)
 	I18,		// Minimum swith-off time fan(s), (seconds)
 	
-	MaxVol = 48,	//   Maximum avilable volume [m3/h] - in/out? 
+	P1 = 31, // option PCB, 
+	P2,
+	P3,
+	P4,
+	P5,
+	P6,
+	P7,
+	P8,
+	P9,
+	P10,
+	P11,
+	P12,
+	P13,
+	P14,
+	P15,
+	P16,
+	P17,
+	MaxVol,	//   Maximum avilable volume [m3/h] - in/out? 
+	MinVol = 50; //Minimum allowed volume (50m3/h for HR Large)
 	CurrentVol = 52, // Current position/outlet volume [m3/h]
 	BypassStatus = 54, // Bypass status
 	TempAtmo = 55,  // Temperature from atmosphere [°C] (shifted by 100) 
