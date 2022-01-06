@@ -33,6 +33,11 @@ You can use the above files directly instead of the original <OpenTherm.h> libra
 * Update sitemap : [brink.sitemap](https://github.com/raf1000/brink_openhab/blob/main/openHAB/brink.sitemap) file /* includes items for additional sensors*/
 
 
+After successful setting you shall see something similar to:
+
+![Openhab brink](https://github.com/raf1000/brink_openhab/blob/main/RenoventHRLarge.jpg)
+
+
 # Some notes:
 1. According to OpenTherm protocol version 2.2 specification:
 -   *The master must communicate at least every 1 sec (+15% tolerance).* 
