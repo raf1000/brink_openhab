@@ -144,7 +144,7 @@ enum BrinkTSPindex {
 	U4 = 6, // Minimum atmospheric temperature bypass (value multiplied *2, ex 15C <=> 30)
 	U5 = 7, // Minimum indor temperature bypass (value multiplied *2)
 	U6,	// option PCB: postheater temp seting, control postheater up to 1000 W
-	U7,	// option PCB: proportional input mode (ex mosture sensor, CO2 sensor): A = only 3-way switch, b = proportional input 1, C = proportional input 2, d = proportional input 1 and proportional input 2 (input 1 precedes input 2)	
+	U7,	// option PCB: proportional input mode (ex moisture sensor, CO2 sensor): A = only 3-way switch, b = proportional input 1, C = proportional input 2, d = proportional input 1 and proportional input 2 (input 1 precedes input 2)	
 	U8,  	// Not applicable
 	I1,     // Fixed imbalance (value shifted by 100, ex 100 <=> 0)
 	I2,	// No contact step			
@@ -186,7 +186,7 @@ enum BrinkTSPindex {
 	MaxVol,	//  Maximum avilable volume [m3/h] - in/out (only 248m3/h in my case) 
 	MinVol = 50, //Minimum allowed volume (50m3/h for HR Large)
 	CurrentVol = 52, // Current position/outlet volume [m3/h]
-	MsgOperation, //Message code operating conditions: C0 = no messages, C3 = input fan runs in constant pressure, C6 = output fan runs in constand pressure, C7 = correction max air flaw, C8 = imbalance
+	MsgOperation, //?Message code operating conditions: C0 = no messages, C3 = input fan runs in constant pressure, C6 = output fan runs in constand pressure, C7 = correction max air flaw, C8 = imbalance, C12 = emergency mode
 	BypassStatus, // Bypass status 0=bypass valve shut, 1 = bypass valve automatic, 2 = inpute at minimum
 	TempAtmo,  // Temperature from atmosphere [°C] (shifted by 100) 
 	TempIndoors,  // Temperature from indors [°C] (shifted by 100) 
@@ -197,6 +197,10 @@ enum BrinkTSPindex {
 	CurrentOutputVol = 62, //Current output volume [m3/h]
 	CPID = 64,	//  Current pressure input duct [Pa] 
 	CPOD = 66,  //  Current pressure output duct [Pa] 
+	FrostStatus = 68,// ?Status frost protection: 0 = none, 1-4 = imbalance, 5 = input fan off
+	Temp2Atmo, // ?Temperature to atmosphere, sensor not connected as standard [°C] (shifted by 100) 
+	Temp2Indoors, // ?Temperature to indoors, sensor not connected as standard [°C] (shifted by 100) 
+	TempPostHeater, // ?Temperature postheater 0 = 0°C (not active)
 	
 };
 
