@@ -138,32 +138,32 @@ enum OpenThermStatus {
 
 // Brink Renovent HR specific codes
 enum BrinkTSPindex {
-	U1, 		// Volume Step 1
-	U2 = 2, 	// Volume Step 2
-	U3 = 4,		// Volume Step 3
-	U4 = 6,     	// Minimum atmospheric temperature bypass (value multiplied *2, ex 15C <=> 30)
-	U5 = 7,        	// Minimum indor temperature bypass (value multiplied *2)
-	U6,		// option PCB: postheater temp seting, control postheater up to 1000 W
-	U7,		// option PCB: proportional input mode (ex mosture sensor, CO2 sensor): A = only 3-way switch, b = proportional input 1, C = proportional input 2, d = proportional input 1 and proportional input 2 (input 1 precedes input 2)	
-	U8,  	 	// Not applicable
-	I1,        	// Fixed imbalance (value shifted by 100, ex 100 <=> 0)
-	I2,		// No contact step			
-	I3,		// not applicable
-	I4,		// Switch line step 1
-	I5,		// Switch line step 2
-	I6,		// Switch line step 3
-	I7,		// Imbalance permissible
-	I8,		// Bypass mode
-	I9,		// Hysteresis bypass
-	I10,		// Constand pressure switched off
-	I11,		// Preheater (0-3), o = no preheater
-   	I12,        	// Offset temperature preheater(value shifted by 60, 60 <=> 0, 61 <=> 0.5)
-	I13,		// Filter message on/off (1=on)
-	I14,		// Option PCB present (0 = no)
-	I15,		// Heat recovery configuration (0=heat recovery, 1 = central heating + heat recovery)
-	I16,		// Fan off 
-	I17,		// Repeat time (hours)
-	I18,		// Minimum swith-off time fan(s), (seconds)
+	U1, 	// Volume Step 1
+	U2 = 2, // Volume Step 2
+	U3 = 4,	// Volume Step 3
+	U4 = 6, // Minimum atmospheric temperature bypass (value multiplied *2, ex 15C <=> 30)
+	U5 = 7, // Minimum indor temperature bypass (value multiplied *2)
+	U6,	// option PCB: postheater temp seting, control postheater up to 1000 W
+	U7,	// option PCB: proportional input mode (ex mosture sensor, CO2 sensor): A = only 3-way switch, b = proportional input 1, C = proportional input 2, d = proportional input 1 and proportional input 2 (input 1 precedes input 2)	
+	U8,  	// Not applicable
+	I1,     // Fixed imbalance (value shifted by 100, ex 100 <=> 0)
+	I2,	// No contact step			
+	I3,	// not applicable
+	I4,	// Switch line step 1
+	I5,	// Switch line step 2
+	I6,	// Switch line step 3
+	I7,	// Imbalance permissible
+	I8,	// Bypass mode
+	I9,	// Hysteresis bypass
+	I10,	// Constand pressure switched off
+	I11,	// Preheater (0-3), o = no preheater
+   	I12,    // Offset temperature preheater(value shifted by 60, 60 <=> 0, 61 <=> 0.5)
+	I13,	// Filter message on/off (1=on)
+	I14,	// Option PCB present (0 = no)
+	I15,	// Heat recovery configuration (0=heat recovery, 1 = central heating + heat recovery)
+	I16,	// Fan off 
+	I17,	// Repeat time (hours)
+	I18,	// Minimum swith-off time fan(s), (seconds)
 	
 	P1 = 31,// option PCB: air volume of the supply volume in case of emergency
 	P2, 	// option PCB: air volume of the exhaust fan in case of emergency 
@@ -173,12 +173,12 @@ enum BrinkTSPindex {
 	P6, 	// option PCB: programmable make contact 1, determines how the supply fan reacts when make contact 1 is made: 0 = volume to absolute minimum, 1 = volume according to 3-way switch setting, 2 = volume according to position 3 of the 3-way switch, 3 = fan off
 	P7, 	// option PCB: programmable make contact 1, determines how the exhaust fan reacts when make contact 1 is made: 0 = volume to absolute minimum, 1 = volume according to 3-way switch setting, 2 = volume according to position 3 of the 3-way switch, 3 = fan off
 	P8, 	// option PCB: programmable make contact 2, indicates where make contact 1 should be connected, 0 = not linked, 1 = overrule frost control, 2 = link to bypass conditions, 3 = link to frost conditions, 4 = bypass valve control
-	P9, 	// option PCB: programmable make contact 1, determines how the supply fan reacts when make contact 1 is made: 0 = volume to absolute minimum, 1 = volume according to 3-way switch setting, 2 = volume according to position 3 of the 3-way switch, 3 = fan off
-	P10, 	// option PCB: programmable make contact 1, determines how the exhaust fan reacts when make contact 1 is made: 0 = volume to absolute minimum, 1 = volume according to 3-way switch setting, 2 = volume according to position 3 of the 3-way switch, 3 = fan off
-	P11,    // option PCB: determines the target voltage of the proportional input 1 (moisture sensor) . The volume control tries to adjust the input voltage to the target voltage within the set conditions.
+	P9, 	// option PCB: programmable make contact 2, determines how the supply fan reacts when make contact 1 is made: 0 = volume to absolute minimum, 1 = volume according to 3-way switch setting, 2 = volume according to position 3 of the 3-way switch, 3 = fan off
+	P10, 	// option PCB: programmable make contact 2, determines how the exhaust fan reacts when make contact 1 is made: 0 = volume to absolute minimum, 1 = volume according to 3-way switch setting, 2 = volume according to position 3 of the 3-way switch, 3 = fan off
+	P11,    // option PCB: determines the target voltage of the proportional input 1 (moisture sensor) 0-10V . The volume control tries to adjust the input voltage to the target voltage within the set conditions.
 	P12,    // option PCB: gives the maximum voltage of the device connected to the proportional input 1 (moisture sensor),tThe proportional band of the PI controller is automatically adjusted.
 	P13, 	// option PCB: defines the integration time of the PI controller from the proportional input 1 (moisture sensor). The PI controller controls pure proportional if the integration time is 0 second.	
-	P14,  	// option PCB: determines the target voltage of the proportional input 2 (CO2 sensor) . The volume control tries to adjust the input voltage to the target voltage within the set conditions.
+	P14,  	// option PCB: determines the target voltage of the proportional input 2 (CO2 sensor) 0-10V . The volume control tries to adjust the input voltage to the target voltage within the set conditions.
 	P15,  	// option PCB: gives the maximum voltage of the device connected to the proportional input 2 (CO2 sensor),tThe proportional band of the PI controller is automatically adjusted.
 	P16, 	// option PCB: defines the integration time of the PI controller from the proportional input 2 (Co2 sensor). The PI controller controls pure proportional if the integration time is 0 second.	
 	P17,    // option PCB: control preheater up to 1000 W, 0 = no preheater, 1 = preheater present
@@ -191,8 +191,8 @@ enum BrinkTSPindex {
 	TempAtmo,  // Temperature from atmosphere [°C] (shifted by 100) 
 	TempIndoors,  // Temperature from indors [°C] (shifted by 100) 
 	InitStatus,  // 1 = aplliance initiated, 0 = not initiated
-	VoltageParam1,	// option PCB: voltage on proportional input 1 (moisture sensor)
-	VoltageParam2,	// option PCB: voltage on proportional input 2 (CO2 sensor)
+	VoltageParam1,	// option PCB: voltage on proportional input 1 (moisture sensor) 0-10V
+	VoltageParam2,	// option PCB: voltage on proportional input 2 (CO2 sensor) 0-10V
 	CurrentInputVol, //Current input volume [m3/h]
 	CurrentOutputVol = 62, //Current output volume [m3/h]
 	CPID = 64,	//  Current pressure input duct [Pa] 
@@ -251,13 +251,13 @@ public:
 	unsigned long setBoilerStatus(bool enableCentralHeating, bool enableHotWater = false, bool enableCooling = false, bool enableOutsideTemperatureCompensation = false, bool enableCentralHeating2 = false);
 	bool setBoilerTemperature(float temperature);
 	float getBoilerTemperature();
-    float getReturnTemperature();
+   	float getReturnTemperature();
 	
-    bool setDHWSetpoint(float temperature);
-    float getDHWTemperature();
-    float getModulation();
-    float getPressure();
-    unsigned char getFault();
+    	bool setDHWSetpoint(float temperature);
+    	float getDHWTemperature();
+    	float getModulation();
+    	float getPressure();
+    	unsigned char getFault();
 
 	
 	//Ventilation systems requests
