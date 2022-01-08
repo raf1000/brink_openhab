@@ -91,7 +91,7 @@ enum OpenThermMessageID {
 	VentOEMFault, // flag8 / flag8 Oem specific fault flags, DIAGNOSTIC CODE V/H,READ,U16
 	VentSlaveVentConfig = 74, // Slave Configuration Flags /  Slave MemberID Code, CONFIG/MEMBERID V/H,READ,U8  , HB0-HB2, LB
 	VentOTversion,  // f8.8 OPENTHERM VERSION V/H,READ, 0,127,“2,32”,Yes
-    VentVersionType,  // VERSION & TYPE V/H,READ,U8,0,255,1,U8,0,255,0,Yes
+        VentVersionType,  // VERSION & TYPE V/H,READ,U8,0,255,1,U8,0,255,0,Yes
 	VentNomVent = 77, // _ / u8 Read the relative ventilation 0-100%, RELATIVE VENTILATION,READ,U8,0,255
 	VentRelHumid, // _ / u8 Read the relative humidity 0-100%, RELATIVE HUMIDITY,READ,U8,0,255, RELATIVE HUMIDITY,WRITE,U8,0,255
 	VentCO2level, // u16 CO2 level in PPM (0-2000), CO2 LEVEL,READ,U16,0,10000  , CO2 LEVEL,WRITE,U16,0,10000
@@ -183,13 +183,17 @@ enum BrinkTSPindex {
 	P16, 	// option PCB: defines the integration time of the PI controller from the proportional input 2 (Co2 sensor). The PI controller controls pure proportional if the integration time is 0 second.	
 	P17,    // option PCB: control preheater up to 1000 W, 0 = no preheater, 1 = preheater present
 	
-	MaxVol,	//   Maximum avilable volume [m3/h] - in/out (only 248m3/h in my case) 
-	MinVol = 50; //Minimum allowed volume (50m3/h for HR Large)
+	MaxVol,	//  Maximum avilable volume [m3/h] - in/out (only 248m3/h in my case) 
+	MinVol = 50, //Minimum allowed volume (50m3/h for HR Large)
 	CurrentVol = 52, // Current position/outlet volume [m3/h]
-	BypassStatus = 54, // Bypass status
-	TempAtmo = 55,  // Temperature from atmosphere [°C] (shifted by 100) 
+	MsgOperation, //Message code operating conditions: C0 = no messages, C3 = input fan runs in constant pressure, C6 = output fan runs in constand pressure, C7 = correction max air flaw, C8 = imbalance
+	BypassStatus, // Bypass status 0=bypass valve shut, 1 = bypass valve automatic, 2 = inpute at minimum
+	TempAtmo,  // Temperature from atmosphere [°C] (shifted by 100) 
 	TempIndoors,  // Temperature from indors [°C] (shifted by 100) 
-	CurrentInputVol = 60, //Current input volume [m3/h]
+	InitStatus,  // 1 = aplliance initiated, 0 = not initiated
+	VoltageParam1,	// option PCB: voltage on proportional input 1 (moisture sensor)
+	VoltageParam2,	// option PCB: voltage on proportional input 2 (CO2 sensor)
+	CurrentInputVol, //Current input volume [m3/h]
 	CurrentOutputVol = 62, //Current output volume [m3/h]
 	CPID = 64,	//  Current pressure input duct [Pa] 
 	CPOD = 66,  //  Current pressure output duct [Pa] 
