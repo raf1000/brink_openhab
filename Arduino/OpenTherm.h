@@ -143,8 +143,8 @@ enum BrinkTSPindex {
 	U3 = 4,		// Volume Step 3
 	U4 = 6,     	// Minimum atmospheric temperature bypass (value multiplied *2, ex 15C <=> 30)
 	U5 = 7,        	// Minimum indor temperature bypass (value multiplied *2)
-	U6,		//option PCB: postheater temp seting
-	U7,		//option PCB: freely programmable contact inputs mode
+	U6,		// option PCB: postheater temp seting, control postheater up to 1000 W
+	U7,		// option PCB: proportional input mode (ex mosture sensor, CO2 sensor): A = only 3-way switch, b = proportional input 1, C = proportional input 2, d = proportional input 1 and proportional input 2 (input 1 precedes input 2)	
 	U8,  	 	// Not applicable
 	I1,        	// Fixed imbalance (value shifted by 100, ex 100 <=> 0)
 	I2,		// No contact step			
@@ -165,24 +165,25 @@ enum BrinkTSPindex {
 	I17,		// Repeat time (hours)
 	I18,		// Minimum swith-off time fan(s), (seconds)
 	
-	P1 = 31, // option PCB, 
-	P2,
-	P3,
-	P4,
-	P5,
-	P6,
-	P7,
-	P8,
-	P9,
-	P10,
-	P11,
-	P12,
-	P13,
-	P14,
-	P15,
-	P16,
-	P17,
-	MaxVol,	//   Maximum avilable volume [m3/h] - in/out? 
+	P1 = 31,// option PCB: air volume of the supply volume in case of emergency
+	P2, 	// option PCB: air volume of the exhaust fan in case of emergency 
+	P3, 	// option PCB: additional air volume supply fan when bedroom valve entrance is closed (this volume is added to the volume related to 3 way switch)
+	P4, 	// option PCB: additional air volume exhaust fan when bedroom valve entrance is closed
+	P5, 	// option PCB: programmable make contact 1, indicates where make contact 1 should be connected, 0 = not linked, 1 = overrule frost control, 2 = link to bypass conditions, 3 = link to frost conditions, 4 = bypass valve control
+	P6, 	// option PCB: programmable make contact 1, determines how the supply fan reacts when make contact 1 is made: 0 = volume to absolute minimum, 1 = volume according to 3-way switch setting, 2 = volume according to position 3 of the 3-way switch, 3 = fan off
+	P7, 	// option PCB: programmable make contact 1, determines how the exhaust fan reacts when make contact 1 is made: 0 = volume to absolute minimum, 1 = volume according to 3-way switch setting, 2 = volume according to position 3 of the 3-way switch, 3 = fan off
+	P8, 	// option PCB: programmable make contact 2, indicates where make contact 1 should be connected, 0 = not linked, 1 = overrule frost control, 2 = link to bypass conditions, 3 = link to frost conditions, 4 = bypass valve control
+	P9, 	// option PCB: programmable make contact 1, determines how the supply fan reacts when make contact 1 is made: 0 = volume to absolute minimum, 1 = volume according to 3-way switch setting, 2 = volume according to position 3 of the 3-way switch, 3 = fan off
+	P10, 	// option PCB: programmable make contact 1, determines how the exhaust fan reacts when make contact 1 is made: 0 = volume to absolute minimum, 1 = volume according to 3-way switch setting, 2 = volume according to position 3 of the 3-way switch, 3 = fan off
+	P11,    // option PCB: determines the target voltage of the proportional input 1 (moisture sensor) . The volume control tries to adjust the input voltage to the target voltage within the set conditions.
+	P12,    // option PCB: gives the maximum voltage of the device connected to the proportional input 1 (moisture sensor),tThe proportional band of the PI controller is automatically adjusted.
+	P13, 	// option PCB: defines the integration time of the PI controller from the proportional input 1 (moisture sensor). The PI controller controls pure proportional if the integration time is 0 second.	
+	P14,  	// option PCB: determines the target voltage of the proportional input 2 (CO2 sensor) . The volume control tries to adjust the input voltage to the target voltage within the set conditions.
+	P15,  	// option PCB: gives the maximum voltage of the device connected to the proportional input 2 (CO2 sensor),tThe proportional band of the PI controller is automatically adjusted.
+	P16, 	// option PCB: defines the integration time of the PI controller from the proportional input 2 (Co2 sensor). The PI controller controls pure proportional if the integration time is 0 second.	
+	P17,    // option PCB: control preheater up to 1000 W, 0 = no preheater, 1 = preheater present
+	
+	MaxVol,	//   Maximum avilable volume [m3/h] - in/out (only 248m3/h in my case) 
 	MinVol = 50; //Minimum allowed volume (50m3/h for HR Large)
 	CurrentVol = 52, // Current position/outlet volume [m3/h]
 	BypassStatus = 54, // Bypass status
