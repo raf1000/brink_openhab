@@ -47,7 +47,7 @@ After successful setting you shall see something similar to:
             This is probably true for a heating appliance but in case of connection with Brink Renovent only these messages are not needed (and Brink as a ventilation device               does not recognise them)   
 2.  In order reduce traffic of incoming events in openHAB, the Converter sends message to openHAB only upon "significant" changes of parameters/values in Brink. For example         current pressure in input/output duct is changing constantly by 1Pa but the converter udpates the current pressure value in openHAB only if the change is bigger than 2Pa.
 3.  All adjustable  user/installer parameters (TSP parameters) can be set up and read using the *getBrinkTSP/setBrinkTSP* methods. 
-* I have managed to identify 57 out of 73 TSP avaiable parameters, they are specified in the OpenTherm.h file. 
+* I have managed to identify 57 out of 73 TSP available parameters, they are specified in the updated OpenTherm.h file. 
 * I have made only U4 and U5 as read/write. I think that changes of other adjustable parameters in openHAB are not practical. But if needed you can update the arduino program (then add channels and items in openHAB) to have them as well.
 6.  I have noticed that Opentherm protocol connection can work in parallel with multiple switch (3 way switch). After switching from  U1 to U2/U3, the 3 way switch overrides the ventilation capacity set up by OpenTherm.
 7.  After restarting openHAB it might be needed to reset the onverter in order to populate slow changing parameters in openHAB (unless you want to use "restore" in openHAB). Repopulation of parameters can also be done by changing U5 parameter visible in sitemap.
