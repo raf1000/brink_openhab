@@ -33,8 +33,8 @@ WiFiClient espClient;
 PubSubClient mqttClient(espClient);
 
 
-float tIn, tIn_old = 0;
-float tOut, tOut_old = 0;
+float tIn, tIn_old = 0; // temp external
+float tOut, tOut_old = 0; //temp internal
 bool fault, fault_old = 1; 
 bool vmode, vmode_old = 0;
 bool sbypass, sbypass_old = 1;
@@ -46,16 +46,15 @@ int pressout, pressout_old = 0; // uint8_t
 int vstep1, vstep1_old = 50;
 int vstep2, vstep2_old = 150;
 int vstep3, vstep3_old = 300;
-int tatm, tatm_old = 1;
-int tins, tins_old = 1;
+int tU4, tU4_old = 1; //atmosphee temp U4
+int tU5, tU5_old = 1; //inside temp U5
 int cvol, cvol_old = 0;
 int RPMin, RPMin_old;
 int RPMout, RPMout_old;
 int fcode, fcode_old = 0;
-
+int msg, msg_old = 0;
+int param1, param1_old = 100;
 long lRssi, lRssi_old = 0;
-bool sem = false;
-int temp = 0;
 
 
 void ICACHE_RAM_ATTR handleInterrupt() {
@@ -147,11 +146,15 @@ void refreshAll()
   
     mqttClient.publish("brink/FilterDirty/get", String(filter).c_str());
  
-    mqttClient.publish("brink/VentilationNominalValue/get", String(gvent * maxVent).c_str());
+    mqttClient.publish("brink/VentilationNominalValue/get", String(gvent * 2.48).c_str());
    
     mqttClient.publish("brink/CurrentVolume/get", String(cvol).c_str());
  
     mqttClient.publish("brink/FaultCode/get", String(fcode).c_str());
+
+    mqttClient.publish("brink/OperationMsg/get", String(msg).c_str());
+
+    mqttClient.publish("brink/I1/get", String(param1 - 100).c_str());
     
     mqttClient.publish("brink/U1/get", String(vstep1).c_str());
       
@@ -159,15 +162,14 @@ void refreshAll()
      
     mqttClient.publish("brink/U3/get", String(vstep3).c_str());
      
-    mqttClient.publish("brink/U4/get", String(tatm/2).c_str());
+    mqttClient.publish("brink/U4/get", String(tU4/2).c_str());
      
-    mqttClient.publish("brink/U5/get", String(tins/2).c_str());
+    mqttClient.publish("brink/U5/get", String(tU5/2).c_str());
     
     mqttClient.publish("brink/Wifi/get", String(lRssi).c_str());
 
     mqttClient.publish("brink/OpenThermStatus/get", "WORK"); 
 }
-
 
 void loop()
 {
@@ -175,6 +177,7 @@ void loop()
   {
     MqttReconnect(); 
     mqttClient.publish("brink/OpenThermStatus/get", "WORK"); 
+   
   }
   mqttClient.loop();
   
@@ -184,30 +187,34 @@ void loop()
     ReadBrinkParameters();
 
     lRssi = WiFi.RSSI(); //long
-    if ( abs(lRssi- lRssi_old) > 1) {   //reduce data publication due frequent slight changes of signal
+    if ( abs(lRssi- lRssi_old) > 2) {   //reduce data publication due frequent slight changes of signal
       mqttClient.publish("brink/Wifi/get", String(lRssi).c_str());
       lRssi_old = lRssi;
+    }
+// Workaround for non working bypass change while OT converter is connected
+// allow for bypass change when U4 and U5 conditions are met: stop OT protocol for ? minutes
+
+    if (sbypass == 0)  //bypass is CLOSED
+    {
+       if ( (tOut > tU5/2) && (tIn > tU4/2) && (tIn < tOut) ) // if true open bypass, 
+       {
+          mqttClient.publish("brink/OpenThermStatus/get", "WAIT"); // wait for bypass change
+          delay(240000); //stop 4 min
+          sbypass = 1;
+       }
+    }
+    if (sbypass == 1) //bypass is OPEN
+    {  
+       if ( (tOut < tU5/2) || (tIn < tU4/2) || (tIn > tOut)  ) //if true close bypass
+       {
+          mqttClient.publish("brink/OpenThermStatus/get","WAIT"); // wait for bypass change
+          delay(240000); //stop  4 min
+          sbypass = 0;
+       }
     }
     startTime = currentTime;  
   }
 
-// Workaround for non working bypass change while OT converter is connected
-// allow for bypass change when U4 and U5 conditions are met: stop OT protocol for ? minutes
-
-  temp = int( tIn - 0.1) - tatm/2;
-  if ( (temp > 0) && (sem == false) ) // openning bypas, wait for change
-  {
-    mqttClient.publish("brink/OpenThermStatus/get", "WAIT"); 
-    delay(90000); //stop 1,5 min
-    sem = true;
-  }
-  if ( (temp < 0) && (sem == true) ) //closing bypass
-  {
-    mqttClient.publish("brink/OpenThermStatus/get","WAIT"); 
-    delay(180000); //stop  3 min
-    sem = false;
-  }
- 
 }
 
 //Reading selected Brink Renovent HR parameters, Mqtt publication only if a value has changed
@@ -226,7 +233,6 @@ void ReadBrinkParameters()
       tOut_old = tOut;
   }
 
-  
   fault = ot.getFaultIndication();
   if (fault != fault_old) {
       mqttClient.publish("brink/FauiltIndication/get", String(fault).c_str()); 
@@ -261,7 +267,7 @@ void ReadBrinkParameters()
 
   gvent =  ot.getVentilation();
   if (gvent != gvent_old) {
-      mqttClient.publish("brink/VentilationNominalValue/get", String(gvent * maxVent).c_str());
+      mqttClient.publish("brink/VentilationNominalValue/get", String(gvent * 2.49).c_str());
       gvent_old = gvent;
   }
 
@@ -307,16 +313,28 @@ void ReadBrinkParameters()
       vstep3_old = vstep3;
   }
 
-
-  tatm = ot.getBrinkTSP(U4);
-  if (tatm != tatm_old) {
-      mqttClient.publish("brink/U4/get", String(tatm/2).c_str());
-      tatm_old = tatm;
+  tU4 = ot.getBrinkTSP(U4);
+  if (tU4 != tU4_old) {
+      mqttClient.publish("brink/U4/get", String(tU4/2).c_str());
+      tU4_old = tU4;
   }
 
-  tins = ot.getBrinkTSP(U5);
-  if (tins != tins_old) {
-      mqttClient.publish("brink/U5/get", String(tins/2).c_str());
-      tins_old = tins;
+  tU5 = ot.getBrinkTSP(U5);
+  if (tU5 != tU5_old) {
+      mqttClient.publish("brink/U5/get", String(tU5/2).c_str());
+      tU5_old = tU5;
   }
+
+  msg = ot.getBrinkTSP(MsgOperation);
+  if (msg != msg_old) {
+      mqttClient.publish("brink/OperationMsg/get", String(msg).c_str());
+      msg_old = msg;
+  }
+
+  param1 = ot.getBrinkTSP(I1);
+  if (param1 != param1_old) {
+      mqttClient.publish("brink/I1/get", String(param1 - 100).c_str());
+      param1_old = param1;
+  }
+
 }
