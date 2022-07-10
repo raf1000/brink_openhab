@@ -2,7 +2,8 @@
 
 This repository allows to integrate Brink Renovent HR with openHAB. The integration seems to be the most comprehensive one (all data including TSP is available).
 
-The following "converter" shall be placed between Brink Renovent HR and openHAB:
+You need to place  a "converter" between  Brink Renovent HR ( opentherm voltage of 7..15V) and OpenHAB (ESP8266 voltage of 3..5V).
+I have used the following one:
 1. Wemos D1 mini
 2. Master OpenTherm Shield:  https://diyless.com/product/master-opentherm-shield
 
@@ -13,7 +14,7 @@ The converter communicates with openHAB via MQTT protocol. The physical connecti
 # Converter set up (Arduino):
 
 * Install and run arduino IDE, connect to Wemos D1 mini via USB.
-* Upload brink_hr program: [Brink_HR.ino](https://github.com/raf1000/brink_openhab/blob/main/Arduino/Brink_HR.ino) to arduino IDE
+* Upload brink_hr program: [Brink_HR.ino](https://github.com/raf1000/brink_openhab/blob/main/Arduino/Brink_HR.ino) or [Brink_HR_bypass.ino](https://github.com/raf1000/brink_openhab/blob/main/Arduino/Brink_HR_bypass.ino) to arduino IDE
 * Specify network and mqtt parameters in the Brink_HR program. Perform changes in the code if you want addtional TSP to be avilable.
 * The additional libraries shall be installed as specified in the program including: *<OpenTherm.h>*, *<ESP8266WiFi.h>*, *<PubSubClient.h>*
 
@@ -48,12 +49,25 @@ After successful setting you shall see something similar to:
 2.  In order reduce traffic of incoming events in openHAB, the Converter sends message to openHAB only upon "significant" changes of parameters/values in Brink. For example         current pressure in input/output duct is changing constantly by 1Pa but the converter udpates the current pressure value in openHAB only if the change is bigger than 2Pa.
 3.  All adjustable  user/installer parameters (TSP parameters) can be set up and read using the *getBrinkTSP/setBrinkTSP* methods. 
 * I have managed to identify 61 TSP available parameters, they are specified in the updated OpenTherm.h file. 
-* I have made only U4, U5 and I1 as read/write. In my case changes of other adjustable parameters in openHAB are not practical (for example I do not have a preheater). But if needed you can update the arduino program (then add channels and items in openHAB) to read/write them as well.
+* I have made only U1 (in case of bypass), U4, U5 and I1 as read/write. In my case changes of other adjustable parameters in openHAB are not practical (for example I do not have a preheater). But if needed you can update the arduino program (then add channels and items in openHAB) to read/write them as well.
 6.  I have noticed that Opentherm protocol connection can work in parallel with multiple switch (3 way switch). After switching from  U1 to U2/U3, the 3 way switch overrides the ventilation capacity set up by OpenTherm.
-7.  After restarting openHAB it might be needed to reset the converter in order to populate slow changing parameters in openHAB (unless you want to use "restore" in openHAB). Repopulation of parameters can also be done by changing U5 parameter visible in sitemap.
-8.  Automatic Bypass (mounted as standard)
-- Seems that none of the standard bits (LB2, LB3, HB1, HB2) of the Msg=70 in OT protocol is updated by Brink Renovent when bypass position is changed. But I have identified a TSP which conveys such information and it is implemented in the program.
-- Another issue that bypass position does not change when OpenTherm protocol is connected to the Brink Renovent despite the U4 and U5 conditions are met! I have implemented a workaround in which OpenTherm protocol is disconnected for 4 minuts in order to open/close bypass. 
+7.  After restarting openHAB it might be needed to reset the converter in order to populate slow changing parameters in openHAB (unless you want to use "restore" in openHAB). Repopulation of parameters can also be done by any change of U5 parameter visible in sitemap.
+8.  Seems that none of the standard bits (LB2, LB3, HB1, HB2) of the Msg=70 in OT protocol is updated by Brink Renovent when bypass position is changed. But I have identified a TSP which conveys such information and it is implemented in the program.
+
+# Automatic Bypass (mounted as standard)
+
+I have noticed a failure of automatic bypass while working with opentherm protocol. When opentherm is connected to Brink Renovent HR the automatic bypass is always closed despite that U4 and U5 conditions are met. Even if you manage to open it (opentherm not connected), then ~ 30 secondes after connecting opentherm bypass is closing despite that the system message inform that the bypass is open :-(
+I have elaborated the following workaround (included in the Brink_HR_bypass.ino file):
+
+(*) when bypass shall be open (U4 and U5 conditions are met) opentherm is connecting to Brink Renovent HR periodically
+-  parameter *readPeriod_bypass* shall be set to 20 seconds minimum(20 000)
+-  in the program I have set up 2 minutes for this parameter, which means that ever 2 minutes your info about Brink parameters will be updated
+(**) in such a periodic connectiong mode you can not control ventilation capacity using ot.setVentilation() methood but only by changing U1 parameter. 
+- As an example I am attaching my openHab rules on which Brink Renovent flow is controled based on Home Humidity sensor for both open and closed bypass.
+
+
+
+
 
 
 
