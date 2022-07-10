@@ -56,13 +56,13 @@ After successful setting you shall see something similar to:
 
 # Automatic Bypass (mounted as standard)
 
-I have noticed a failure of automatic bypass while working with opentherm protocol. When opentherm is connected to Brink Renovent HR the automatic bypass is always closed despite that U4 and U5 conditions are met. Even if you manage to open it (opentherm not connected), then ~ 30 secondes after connecting opentherm bypass is closing despite that the system message inform that the bypass is open :-(
+I have noticed a failure of automatic bypass while working with opentherm protocol. When opentherm is connected to Brink Renovent HR the automatic bypass is always closed despite that U4 and U5 conditions are met. Even if you manage to open it (opentherm not connected), then ~ 30 secondes after connecting opentherm bypass is closing despite that the system message informs that the bypass is open :-(
 
 I have elaborated the following workaround (included in the Brink_HR_bypass.ino file):
 
 (*) when bypass shall be open (U4 and U5 conditions are met) opentherm is connecting to Brink Renovent HR periodically
 - parameter *readPeriod_bypass* shall be set to 20 seconds minimum(20 000)
-- in the program I have set up 2 minutes for this parameter, which means that ever 2 minutes your info about Brink parameters will be read from Brink  and updated in openHAB
+- in the program I have set up 2 minutes for this parameter, which means that every 2 minutes your info about Brink parameters will be read from Brink  and updated in openHAB
 - writing/changing values in Brink are on-line 
 
 (**) in such a periodic connection mode you shall NOT control ventilation capacity using ot.setVentilation() methood but only by changing U1 parameter. 
