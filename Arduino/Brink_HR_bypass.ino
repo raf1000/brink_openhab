@@ -11,7 +11,7 @@ const char* mqtt_client_id = "brink2"; // Unique client id
 const int mqtt_Port = 1883; 
 const char* mqtt_User = "your mqtt user"; 
 const char* mqtt_Password = "your mqtt server password"; 
-//float maxVent = 2.49; //it means 249 m/h3 - max avilable flow in my Brink not used
+//float maxVent = 2.49; //it means 249 m/h3 - max avilable flow in my Brink - not used/needed
 const unsigned long readPeriod = 1500; // 1000 = every second; set between 1000 - 5000
 const unsigned long readPeriod_bypass = 120000; // Set +15000 - OT disconnection needed for bypass work
 //-----------------------------------------------------------------------
@@ -34,7 +34,7 @@ bool fault, fault_old = 1;      //fault code
 bool vmode, vmode_old = 0;      //ventilation mode
 bool bypass, bypass_old = 1;    //bypass mode
 bool filter, filter_old = 1;    //filter replacement indicator
-int gvent, gvent_old = 0;       //ventilation nominal value [%] ??
+//int gvent, gvent_old = 0;       //ventilation nominal value [%] not used cvol used instead
 int pressin, pressin_old = 0;   //presure input duct [Pa]
 int pressout, pressout_old = 0; //preasure output duct [Pa]
 int vstep1, vstep1_old = 50;    //U1
