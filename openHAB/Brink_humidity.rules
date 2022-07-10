@@ -1,0 +1,34 @@
+rule "Humidity change"
+when
+    Item ST_Home_Humidity changed
+then      
+    if (  Brink_I1.state != 0 || Program_Presence.state > 0 || ST_Brink_Level.state != 1) return;
+
+    // var Number newH = newState as Number
+
+    if ( newState < 25 ) 
+    {   
+        if (Brink_BypassStatus.state == OPEN && Brink_U1.state != 50) Brink_U1.sendCommand(50)
+        if (Brink_Ventiltion_Speed.state != 50 ) Brink_VentilationSetpoint.sendCommand(20) 
+    }
+    else if ( newState < 30 ) 
+    { 
+        if (Brink_BypassStatus.state == OPEN && Brink_U1.state != 65) Brink_U1.sendCommand(65)
+        if (Brink_Ventiltion_Speed.state != 62 ) Brink_VentilationSetpoint.sendCommand(25) 
+    }
+    else if ( newState < 40 ) 
+    {
+        if (Brink_BypassStatus.state == OPEN && Brink_U1.state != 75) Brink_U1.sendCommand(75)
+        if (Brink_Ventiltion_Speed.state != 74 ) Brink_VentilationSetpoint.sendCommand(30) 
+    }
+    else if ( newState < 55 ) 
+    {
+        if (Brink_BypassStatus.state == OPEN && Brink_U1.state != 100) Brink_U1.sendCommand(100)
+        if (Brink_Ventiltion_Speed.state != 99 ) Brink_VentilationSetpoint.sendCommand(40) 
+    }
+    else 
+    {
+        if (Brink_BypassStatus.state == OPEN && Brink_U1.state != 125) Brink_U1.sendCommand(125)
+        if (Brink_Ventiltion_Speed.state != 124 ) Brink_VentilationSetpoint.sendCommand(50) 
+    }
+end
