@@ -17,13 +17,14 @@ const char* mqtt_client_id = "brink"; // Unique client id
 const int mqtt_Port = 1883; 
 const char* mqtt_User = "SET MQTT USER"; 
 const char* mqtt_Password = "SET MQTT PASSWORD"; 
-const float maxVent = 2.49; //it means 249 m/h3 - max avilable flow in my Brink
+const float maxVent = 2.49; //it means 249 m/h3 - max avilable flow in my Brink - NOT USED
+const unsigned long readPeriod = 1500; // OT protocol requires master to communicate at least every 1 sec (+15% tolerance). 
 // ---------------------------------------------------------------
 const char* mqtt_topic_in = "brink/+/set"; //subscribe commands from Openhab
 
 unsigned long startTime;
 unsigned long currentTime;
-const unsigned long readPeriod = 1500; // OT protocol requires master to communicate at least every 1 sec (+15% tolerance). 
+
 
 const int HWCPin = 14; //Option: HW circulation pump D5
 const int inPin = 4; //ESP8266 D2
@@ -190,27 +191,6 @@ void loop()
     if ( abs(lRssi- lRssi_old) > 2) {   //reduce data publication due frequent slight changes of signal
       mqttClient.publish("brink/Wifi/get", String(lRssi).c_str());
       lRssi_old = lRssi;
-    }
-// Workaround for non working bypass change while OT converter is connected
-// allow for bypass change when U4 and U5 conditions are met: stop OT protocol for ? minutes
-
-    if (sbypass == 0)  //bypass is CLOSED
-    {
-       if ( (tOut > tU5/2) && (tIn > tU4/2) && (tIn < tOut) ) // if true open bypass, 
-       {
-          mqttClient.publish("brink/OpenThermStatus/get", "WAIT"); // wait for bypass change
-          delay(240000); //stop 4 min
-          sbypass = 1;
-       }
-    }
-    if (sbypass == 1) //bypass is OPEN
-    {  
-       if ( (tOut < tU5/2) || (tIn < tU4/2) || (tIn > tOut)  ) //if true close bypass
-       {
-          mqttClient.publish("brink/OpenThermStatus/get","WAIT"); // wait for bypass change
-          delay(240000); //stop  4 min
-          sbypass = 0;
-       }
     }
     startTime = currentTime;  
   }
