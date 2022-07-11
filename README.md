@@ -66,7 +66,7 @@ I have elaborated the following workaround (included in the Brink_HR_bypass.ino 
 - writing/changing values in Brink are on-line 
 
 (**) in such a periodic connection mode you shall NOT control ventilation capacity using ot.setVentilation() methood but only by changing U1 parameter. 
-- it is important to ensure that both parameter UI and ot.setVentilation() are set at the same level to avoid frequent changes of Brink1s ventilators speed
+- it is important to ensure that both parameter U1 and ot.setVentilation() are set at the same level to avoid frequent changes of Brink`s ventilators speed
 - as an example I am attaching my openHab rules in which Brink Renovent flow is controled based on Home Humidity sensor for both open and closed bypass.
 
 
