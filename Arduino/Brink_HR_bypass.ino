@@ -82,7 +82,7 @@ void MqttCallback(char* topic, byte* payload, unsigned int length) {
   payload[length] = 0;  
 
    // Setting/Changing selected Brink Renovent HR parameters requested by OpenHab
-   if( (strcmp(topic, "brink/VentNomValue/set") == 0) && (sem_bypass == 1) ) ot.setVentilation(atoi((char *)payload));  // uint8_t 
+   if( strcmp(topic, "brink/VentNomValue/set") == 0 ) ot.setVentilation(atoi((char *)payload));  // uint8_t 
    if(strcmp(topic, "brink/U1/set") == 0) ot.setBrinkTSP(U1, atoi((char *)payload) );
 //   if(strcmp(topic, "brink/U2/set") == 0) ot.setBrinkTSP(U2, atoi((char *)payload) );
 //   if(strcmp(topic, "brink/U3/set") == 0) ot.setBrinkTSP(U3, atoi((char *)payload) );
