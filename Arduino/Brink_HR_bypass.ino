@@ -83,9 +83,9 @@ void MqttCallback(char* topic, byte* payload, unsigned int length) {
 
    // Setting/Changing selected Brink Renovent HR parameters requested by OpenHab
    if( strcmp(topic, "brink/VentNomValue/set") == 0 ) ot.setVentilation(atoi((char *)payload));  // uint8_t 
-   if(strcmp(topic, "brink/U1/set") == 0) ot.setBrinkTSP(U1, atoi((char *)payload) );
-//   if(strcmp(topic, "brink/U2/set") == 0) ot.setBrinkTSP(U2, atoi((char *)payload) );
-//   if(strcmp(topic, "brink/U3/set") == 0) ot.setBrinkTSP(U3, atoi((char *)payload) );
+   if(strcmp(topic, "brink/U1/set") == 0) ot.setBrink2TSP(U1, atoi((char *)payload) );
+//   if(strcmp(topic, "brink/U2/set") == 0) ot.setBrink2TSP(U2, atoi((char *)payload) );
+//   if(strcmp(topic, "brink/U3/set") == 0) ot.setBrink2TSP(U3, atoi((char *)payload) );
    if(strcmp(topic, "brink/U4/set") == 0) ot.setBrinkTSP(U4, atoi((char *)payload)*2 );
    if(strcmp(topic, "brink/U5/set") == 0) {
       ot.setBrinkTSP(U5, atoi((char *)payload)*2 );
@@ -269,19 +269,19 @@ void ReadBrinkParameters()
 //      gvent_old = gvent;
 //  }
 
-  pressin = ot.getBrinkTSP(CPID);
+  pressin = ot.getBrink2TSP(CPID);
   if ( abs(pressin - pressin_old) > 1 ) { //reduce data publication due frequent slight changes of preassure
       mqttClient.publish("brink/CPID/get", String(pressin).c_str());
       pressin_old = pressin;
   }
  
-  pressout = ot.getBrinkTSP(CPOD); 
+  pressout = ot.getBrink2TSP(CPOD); 
   if ( abs(pressout - pressout_old) > 1)  {  //reduce data publication due frequent slight changes of preassure
       mqttClient.publish("brink/CPOD/get", String(pressout).c_str());
       pressout_old = pressout;
   }
 
-  cvol = ot.getBrinkTSP(CurrentVol); 
+  cvol = ot.getBrink2TSP(CurrentVol); 
   if (cvol != cvol_old) {
     mqttClient.publish("brink/CurrentVolume/get", String(cvol).c_str());
     cvol_old = cvol;
@@ -293,19 +293,19 @@ void ReadBrinkParameters()
       fcode_old = fcode;
   }
 
-  vstep1 = ot.getBrinkTSP(U1);
+  vstep1 = ot.getBrink2TSP(U1);
   if (vstep1 != vstep1_old) {
       mqttClient.publish("brink/U1/get", String(vstep1).c_str());
       vstep1_old = vstep1;
   }
 
-  vstep2 = ot.getBrinkTSP(U2);
+  vstep2 = ot.getBrink2TSP(U2);
   if (vstep2 != vstep2_old) {
       mqttClient.publish("brink/U2/get", String(vstep2).c_str());
       vstep2_old = vstep2;
   }
 
-  vstep3 = ot.getBrinkTSP(U3);
+  vstep3 = ot.getBrink2TSP(U3);
   if (vstep3 != vstep3_old) {
       mqttClient.publish("brink/U3/get", String(vstep3).c_str());
       vstep3_old = vstep3;
