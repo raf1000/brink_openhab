@@ -426,13 +426,66 @@ bool OpenTherm::setBrinkTSP(BrinkTSPindex index, uint8_t value) {
 	
 	if (index > 28 || index < 0) return 0;
 	if (value < 0) value = 0;
-    if (value > 255) value = 255;
+    	if (value > 255) value = 255;
 	unsigned int TSPdata = value;
 	TSPdata |= (unsigned int)index << 8;
 
 	unsigned long response = sendRequest(buildRequest(OpenThermRequestType::WRITE_DATA, OpenThermMessageID::VentTSPEntry, TSPdata) );
 	return isValidResponse(response);
 }
+
+uint16_t OpenTherm::getBrink2TSP(BrinkTSPindex first_index) {
+    
+    	if ( first_index > 72 || first_index < 0 ) return 0;
+  
+   	unsigned int TSPdata = (unsigned int)first_index << 8;
+    	unsigned long response1 = sendRequest(buildRequest(OpenThermRequestType::READ, OpenThermMessageID::VentTSPEntry, TSPdata) );
+
+	if (  !(isValidResponse(response1)) ) return (0) ; //checking could be skipped - errors handling not defined
+
+	TSPdata = ( (unsigned int)first_index + 1 ) << 8;
+	unsigned long response2 = sendRequest(buildRequest(OpenThermRequestType::READ, OpenThermMessageID::VentTSPEntry, TSPdata) );
+
+	if ( !(isValidResponse(response2)) ) return (0) ; ///checking could be skipped - errors handling not defined
+
+	if ( response2 == 1 ) response2 = 256;
+	if ( response2 > 1 ) return (0) ;
+
+    return getUInt(response1+response2);
+}
+
+
+bool OpenTherm::setBrink2TSP(BrinkTSPindex first_index, uint16_t value) {
+    
+    	if (first_index > 4 || first_index < 0) return 0; //limit range of paramteres against wrong usage of thhe method
+    	if (value < 0) value = 0;
+    	if (value > 400) value = 400;
+	
+    	if (value <=255) 
+	{
+    		unsigned int TSPdata = value;
+    		TSPdata |= (unsigned int)first_index << 8;
+   	 	unsigned long response =   sendRequest(buildRequest(OpenThermRequestType::WRITE_DATA, OpenThermMessageID::VentTSPEntry, TSPdata) );
+    		return isValidResponse(response);
+	}
+	
+	if (value > 255)
+	{
+		unsigned int TSPdata = value - 255;
+    		TSPdata |= (unsigned int)first_index << 8;
+		unsigned long response1 =   sendRequest(buildRequest(OpenThermRequestType::WRITE_DATA, OpenThermMessageID::VentTSPEntry, TSPdata) );
+ 	
+		TSPdata = 0;
+    		TSPdata |= ((unsigned int)first_index + 1) << 8;
+		unsigned long response2 =   sendRequest(buildRequest(OpenThermRequestType::WRITE_DATA, OpenThermMessageID::VentTSPEntry, TSPdata) );
+    		return ( isValidResponse(response1) && isValidResponse(response2) );
+	}
+
+}
+
+
+
+
 
 
 unsigned int OpenTherm::getVentRPM(OpenThermMessageID id) {
