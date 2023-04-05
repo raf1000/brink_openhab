@@ -287,6 +287,8 @@ public:
 	bool setBrinkTSP(BrinkTSPindex index, uint8_t value);
 	unsigned int getVentRPM(OpenThermMessageID id);
 	uint8_t getVentFaultCode();
+	bool setBrink2TSP(BrinkTSPindex first_index, uint16_t value); 
+	uint16_t getBrink2TSP(BrinkTSPindex first_index);
 
 private:
 	const int inPin;
