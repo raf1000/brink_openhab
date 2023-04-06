@@ -462,7 +462,7 @@ bool OpenTherm::setBrink2TSP(BrinkTSPindex first_index, uint16_t value) {
 	{
     		unsigned int TSPdata = value;
     		TSPdata |= (unsigned int)first_index << 8;
-   	 	unsigned long response =   sendRequest(buildRequest(OpenThermRequestType::WRITE_DATA, OpenThermMessageID::VentTSPEntry, TSPdata) );
+   	 	unsigned long response =  sendRequest(buildRequest(OpenThermRequestType::WRITE_DATA, OpenThermMessageID::VentTSPEntry, TSPdata) );
     		return isValidResponse(response);
 	}
 	
@@ -470,11 +470,11 @@ bool OpenTherm::setBrink2TSP(BrinkTSPindex first_index, uint16_t value) {
 	{
 		unsigned int TSPdata = value - 255;
     		TSPdata |= (unsigned int)first_index << 8;
-		unsigned long response1 =   sendRequest(buildRequest(OpenThermRequestType::WRITE_DATA, OpenThermMessageID::VentTSPEntry, TSPdata) );
- 	
-		TSPdata = 0;
+		unsigned long response1 =  sendRequest(buildRequest(OpenThermRequestType::WRITE_DATA, OpenThermMessageID::VentTSPEntry, TSPdata) );
+		delay(200);
+		TSPdata = 1;
     		TSPdata |= ((unsigned int)first_index + 1) << 8;
-		unsigned long response2 =   sendRequest(buildRequest(OpenThermRequestType::WRITE_DATA, OpenThermMessageID::VentTSPEntry, TSPdata) );
+		unsigned long response2 =  sendRequest(buildRequest(OpenThermRequestType::WRITE_DATA, OpenThermMessageID::VentTSPEntry, TSPdata) );
     		return ( isValidResponse(response1) && isValidResponse(response2) );
 	}
 
