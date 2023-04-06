@@ -468,7 +468,7 @@ bool OpenTherm::setBrink2TSP(BrinkTSPindex first_index, uint16_t value) {
 	
 	if (value > 255)
 	{
-		unsigned int TSPdata = value - 255;
+		unsigned int TSPdata = value - 256;
     		TSPdata |= (unsigned int)first_index << 8;
 		unsigned long response1 =  sendRequest(buildRequest(OpenThermRequestType::WRITE_DATA, OpenThermMessageID::VentTSPEntry, TSPdata) );
 		delay(200);
