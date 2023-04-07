@@ -442,7 +442,7 @@ uint16_t OpenTherm::getBrink2TSP(BrinkTSPindex first_index) {
     	unsigned long response = sendRequest(buildRequest(OpenThermRequestType::READ, OpenThermMessageID::VentTSPEntry, TSPdata) );
 	if ( isValidResponse(response) )  { response = getU8(response);} 
 	else { return 0; } 
-//delay(100);
+
 	TSPdata = ( (unsigned int)first_index + 1 ) << 8;
 	unsigned long response1 = sendRequest(buildRequest(OpenThermRequestType::READ, OpenThermMessageID::VentTSPEntry, TSPdata) );
 	return isValidResponse(response2) ? getUInt(response |= response1 << 8) : 0; 
