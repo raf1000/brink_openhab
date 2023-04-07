@@ -47,12 +47,11 @@ After successful setting you shall see something similar to:
 -   *It is required that OpenTherm-compliant devices support the following data items (Message Ids): ID=0, ID=1, ID=3.*
             This is probably true for a heating appliance but in case of connection with Brink Renovent only these messages are not needed (and Brink as a ventilation device               does not recognise them)   
 2.  In order reduce traffic of incoming events in openHAB, the Converter sends message to openHAB only upon "significant" changes of parameters/values in Brink. For example         current pressure in input/output duct is changing constantly by 1Pa but the converter udpates the current pressure value in openHAB only if the change is bigger than 2Pa.
-3.  All adjustable  user/installer parameters (TSP parameters) can be read and set up (if allowable)  using the following methods:
-*getBrinkTSP()/setBrinkTSP()* for 1byte parameters (ex. U4, U5)
-*getBrink2TSP()/setBrink2TSP()* for 2bytes parameters (ex. U1, U2, U3 )
+3.  I have managed to identify 61 TSP (user/installer parameters) available parameters, they are specified in the updated OpenTherm.h file. All TSP parameters can be read and changed up (if allowed)  using the following methods:
+- *getBrinkTSP()/setBrinkTSP()* for 1byte parameters (ex. U4, U5)
+- *getBrink2TSP()/setBrink2TSP()* for 2bytes parameters (ex. U1, U2, U3 )
 
-* I have managed to identify 61 TSP available parameters, they are specified in the updated OpenTherm.h file. 
-* I my code have made only U1, U2, U3, U4, U5 and I1 as read/write. In my case changes of other adjustable parameters in openHAB are not practical (for example I do not have a preheater). But if needed you can update the .ino program (then add channels and items in openHAB) to read/write them as well.
+* In my case I have only U1, U2, U3, U4, U5 and I1 as read/write. In my case changes of other adjustable parameters in openHAB are not practical (for example I do not have a preheater). But if needed you can update the .ino program (then add channels and items in openHAB) to read/write them as well.
 6.  I have noticed that Opentherm protocol connection can work in parallel with multiple switch (3 way switch). After switching from  U1 to U2/U3, the 3 way switch overrides the ventilation capacity set up by OpenTherm.
 7.  After restarting openHAB it might be needed to reset the converter in order to populate slow changing parameters in openHAB (unless you want to use "restore" in openHAB). Repopulation of parameters can also be done by any change of U5 parameter visible in sitemap.
 8.  Seems that none of the standard bits (LB2, LB3, HB1, HB2) of the Msg=70 in OT protocol is updated by Brink Renovent when bypass position is changed. But I have identified a TSP which conveys such information and it is implemented in the .ino program.
