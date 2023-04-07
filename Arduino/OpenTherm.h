@@ -138,9 +138,9 @@ enum OpenThermStatus {
 
 // Brink Renovent HR specific codes
 enum BrinkTSPindex {
-	U1, 	// Volume Step 1
-	U2 = 2, // Volume Step 2
-	U3 = 4,	// Volume Step 3
+	U1, 	// Volume Step 1 - 2 bytes
+	U2 = 2, // Volume Step 2 - 2 byts 
+	U3 = 4,	// Volume Step 3 - 2 bytes
 	U4 = 6, // Minimum atmospheric temperature bypass (value multiplied *2, ex 15C <=> 30)
 	U5 = 7, // Minimum indor temperature bypass (value multiplied *2)
 	U6,	// option PCB: postheater temp seting, control postheater up to 1000 W
@@ -183,8 +183,8 @@ enum BrinkTSPindex {
 	P16, 	// option PCB: defines the integration time of the PI controller from the proportional input 2 (Co2 sensor). The PI controller controls pure proportional if the integration time is 0 second.	
 	P17,    // option PCB: control preheater up to 1000 W, 0 = no preheater, 1 = preheater present
 	
-	MaxVol,	//  Maximum avilable volume [m3/h] - in/out (only 248m3/h in my case) 
-	MinVol = 50, //Minimum allowed volume (50m3/h for HR Large)
+	MaxVol,	//  Maximum avilable volume [m3/h] - in/out - 2 bytes
+	MinVol = 50, //Minimum allowed volume (50m3/h for HR Large) - 2 bytes
 	CurrentVol = 52, // Current position/outlet volume [m3/h]
 	MsgOperation, //?Message code operating conditions: C0 = no messages, C3 = input fan runs in constant pressure, C6 = output fan runs in constand pressure, C7 = correction max air flaw, C8 = imbalance, C12 = emergency mode
 	BypassStatus, // Bypass status 0=bypass valve shut, 1 = bypass valve automatic, 2 = inpute at minimum
@@ -193,10 +193,10 @@ enum BrinkTSPindex {
 	InitStatus,  // 1 = aplliance initiated, 0 = not initiated
 	VoltageParam1,	// option PCB: voltage on proportional input 1 (moisture sensor) 0-10V
 	VoltageParam2,	// option PCB: voltage on proportional input 2 (CO2 sensor) 0-10V
-	CurrentInputVol, //Current input volume [m3/h]
-	CurrentOutputVol = 62, //Current output volume [m3/h]
-	CPID = 64,	//  Current pressure input duct [Pa] 
-	CPOD = 66,  //  Current pressure output duct [Pa] 
+	CurrentInputVol, //Current input volume [m3/h] - 2 bytes
+	CurrentOutputVol = 62, //Current output volume [m3/h] - 2 bytes
+	CPID = 64,	//  Current pressure input duct [Pa]  - 2 bytes
+	CPOD = 66,  //  Current pressure output duct [Pa] - 2 bytes
 	FrostStatus = 68,// ?Status frost protection: 0 = none, 1-4 = imbalance, 5 = input fan off
 	Temp2Atmo, // ?Temperature to atmosphere, sensor not connected as standard [°C] (shifted by 100) 
 	Temp2Indoors, // ?Temperature to indoors, sensor not connected as standard [°C] (shifted by 100) 
