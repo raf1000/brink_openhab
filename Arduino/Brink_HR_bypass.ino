@@ -34,7 +34,7 @@ bool fault, fault_old = 1;      //fault code
 bool vmode, vmode_old = 0;      //ventilation mode
 bool bypass, bypass_old = 1;    //bypass mode
 bool filter, filter_old = 1;    //filter replacement indicator
-//int gvent, gvent_old = 0;       //ventilation nominal value [%] not used cvol used instead
+
 int pressin, pressin_old = 0;   //presure input duct [Pa]
 int pressout, pressout_old = 0; //preasure output duct [Pa]
 int vstep1, vstep1_old = 50;    //U1
@@ -83,9 +83,9 @@ void MqttCallback(char* topic, byte* payload, unsigned int length) {
 
    // Setting/Changing selected Brink Renovent HR parameters requested by OpenHab
    if( strcmp(topic, "brink/VentNomValue/set") == 0 ) ot.setVentilation(atoi((char *)payload));  // uint8_t 
-   if(strcmp(topic, "brink/U1/set") == 0) ot.setBrink2TSP(U1, atoi((char *)payload) );
-//   if(strcmp(topic, "brink/U2/set") == 0) ot.setBrink2TSP(U2, atoi((char *)payload) );
-//   if(strcmp(topic, "brink/U3/set") == 0) ot.setBrink2TSP(U3, atoi((char *)payload) );
+   if(strcmp(topic, "brink/U1/set") == 0) ot.setBrinkTSP(U1, atoi((char *)payload) );
+   if(strcmp(topic, "brink/U2/set") == 0) ot.setBrinkTSP(U2, atoi((char *)payload) );
+   if(strcmp(topic, "brink/U3/set") == 0) ot.setBrink2TSP(U3, atoi((char *)payload) );
    if(strcmp(topic, "brink/U4/set") == 0) ot.setBrinkTSP(U4, atoi((char *)payload)*2 );
    if(strcmp(topic, "brink/U5/set") == 0) {
       ot.setBrinkTSP(U5, atoi((char *)payload)*2 );
@@ -151,8 +151,6 @@ void refreshAll()
     mqttClient.publish("brink/BypassStaus/get", String(bypass).c_str());
   
     mqttClient.publish("brink/FilterDirty/get", String(filter).c_str());
- 
- //   mqttClient.publish("brink/VentNomValue/get", String(gvent * maxVent).c_str());
    
     mqttClient.publish("brink/CurrentVolume/get", String(cvol).c_str());
  
@@ -263,12 +261,6 @@ void ReadBrinkParameters()
       filter_old = filter;
   }
 
-//  gvent =  ot.getVentilation(); //do usuniecai
-//  if (gvent != gvent_old) {
-//      mqttClient.publish("brink/VentNomValue/get", String(gvent * maxVent).c_str());
-//      gvent_old = gvent;
-//  }
-
   pressin = ot.getBrink2TSP(CPID);
   if ( abs(pressin - pressin_old) > 1 ) { //reduce data publication due frequent slight changes of preassure
       mqttClient.publish("brink/CPID/get", String(pressin).c_str());
@@ -281,7 +273,7 @@ void ReadBrinkParameters()
       pressout_old = pressout;
   }
 
-  cvol = ot.getBrink2TSP(CurrentVol); 
+  cvol = ot.getBrinkTSP(CurrentVol); 
   if (cvol != cvol_old) {
     mqttClient.publish("brink/CurrentVolume/get", String(cvol).c_str());
     cvol_old = cvol;
@@ -293,13 +285,13 @@ void ReadBrinkParameters()
       fcode_old = fcode;
   }
 
-  vstep1 = ot.getBrink2TSP(U1);
+  vstep1 = ot.getBrinkTSP(U1);
   if (vstep1 != vstep1_old) {
       mqttClient.publish("brink/U1/get", String(vstep1).c_str());
       vstep1_old = vstep1;
   }
 
-  vstep2 = ot.getBrink2TSP(U2);
+  vstep2 = ot.getBrinkTSP(U2);
   if (vstep2 != vstep2_old) {
       mqttClient.publish("brink/U2/get", String(vstep2).c_str());
       vstep2_old = vstep2;
