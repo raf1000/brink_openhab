@@ -21,9 +21,9 @@ The converter communicates with openHAB via MQTT protocol. The physical connecti
 <OpenTherm.h> library specified at  https://github.com/ihormelnyk/opentherm_library is a part of Arduino IDE library and provides OpenTherm communication protocol plus few methods for heating appliances. However it does not include methods nor variables for ventilation/Brink Renovent appliances. Therefore you need to use the following files which includes Brink Renovent HR relevant additions:
 Updated [OpenTherm.h](https://github.com/raf1000/brink_openhab/blob/main/Arduino/OpenTherm.h)
 Updated [OpenTherm.cpp](https://github.com/raf1000/brink_openhab/blob/main/Arduino/OpenTherm.cpp)
-You can use the above files directly instead of the original <OpenTherm.h> library or make changes to the arduino IDE library (copy parts commeted as "Brink Renovent HR" from updated files) .
+You can use the above files directly instead of the original <OpenTherm.h> library or make changes to the arduino IDE library (copy parts commeted as "Brink Renovent HR" from updated files). In order to do that you need to find directory where theses files are stored in your Arduino IDE, typical path is:  ...\Arduino\libraries\OpenTherm_Library\src\.
  
- * Upload the compiled Brink_HR progrm to wemos D1 mini. Connect wemos D1 mini to the converter and Brink Renovent HR
+ * Upload the compiled Brink_HR_Bypass progrm to wemos D1 mini. Connect wemos D1 mini to the converter and Brink Renovent HR
 
 # openHAB set up:
 
