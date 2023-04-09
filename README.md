@@ -1,6 +1,6 @@
 # brink_openhab
 
-This repository allows to integrate Brink Renovent HR with openHAB. The integration seems to be the most comprehensive one (all data including TSP is available). If you have another model ex. Brink Renovent Excellent the integration method and attached programs are the same but some of avaiable parameters are different or located in different places (TSPs).
+This repository allows to integrate Brink Renovent HR with openHAB. The integration seems to be the most comprehensive one (all data including TSP is available). If you have another model ex. Brink Renovent Excellent the integration method and attached programs are the same but some of avaiable parameters are different, located in different places (TSPs) or not available.
 
 You need to place  a "converter" between  Brink Renovent HR ( opentherm voltage of 7..15V) and OpenHAB (ESP8266 voltage of 3..5V).
 I have used the following one:
