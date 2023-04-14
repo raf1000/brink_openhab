@@ -47,8 +47,8 @@ After successful setting you shall see something similar to:
                              This is probably true for a heating appliance but in case of connection with Brink Renovent only these messages are not needed (and Brink as a ventilation device does not recognise them)   
 2.  In order reduce traffic of incoming events in openHAB, the Converter sends message to openHAB only upon "significant" changes of parameters/values in Brink. For example current pressure in input/output duct is changing constantly by 1Pa but the converter udpates the current pressure value in openHAB only if the change is bigger than 2Pa.
 3.  I have managed to identify 61 TSPs (user/installer available parameters) which are specified in the updated <OpenTherm.h> file with indication of 2 bytes parameters (a parameter stored in 2 TSPs). All TSPs parameters can be read and changed (if allowed) using the following methods:
-- *getBrinkTSP()/setBrinkTSP()*   for 1byte parameters (ex. U4, U5, I1 ..)
-- *getBrink2TSP()/setBrink2TSP()* for 2bytes parameters (ex. U1, U2, U3, Max, Vol, CPOD, CPID, .. )
+- *getBrinkTSP(parameter)/setBrinkTSP(parameter)*   for 1byte parameters (ex. U4, U5, I1 ..)
+- *getBrink2TSP(parameter)/setBrink2TSP(parameter)* for 2bytes parameters (ex. U1, U2, U3, Max Vol, CPOD, CPID, .. )
 
 * I have only U1, U2, U3, U4, U5 and I1 as read/write. In my case changes of other Brink`s adjustable parameters in openHAB are not practical (for example I do not have a preheater). But if needed you can update the .ino program (then add channels and items in openHAB) to read/write them as well.
 6.  I have noticed that Opentherm protocol connection can work in parallel with multiple switch (3 way switch). After switching from Step 1 to Stpe2/3, the 3 way switch overrides the ventilation capacity set up by OpenTherm. In suh a situation 3 way swith force Brink to run according to U2 or U3 parameter and all other parameters (ex preassure, temperature,.. ) are avalable.
