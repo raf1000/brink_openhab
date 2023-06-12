@@ -444,8 +444,8 @@ uint16_t OpenTherm::getBrink2TSP(BrinkTSPindex first_index) {
 	else { return 0; } 
 
 	TSPdata = ( (unsigned int)first_index + 1 ) << 8;
-	unsigned long response1 = sendRequest(buildRequest(OpenThermRequestType::READ, OpenThermMessageID::VentTSPEntry, TSPdata) );
-	return isValidResponse(response2) ? getUInt(response |= response1 << 8) : 0; 
+	unsigned long response2 = sendRequest(buildRequest(OpenThermRequestType::READ, OpenThermMessageID::VentTSPEntry, TSPdata) );
+	return isValidResponse(response2) ? getUInt(response |= response2 << 8) : 0; 
 }
 
 
@@ -474,11 +474,7 @@ bool OpenTherm::setBrink2TSP(BrinkTSPindex first_index, uint16_t value) {
 		unsigned long response2 =  sendRequest(buildRequest(OpenThermRequestType::WRITE_DATA, OpenThermMessageID::VentTSPEntry, TSPdata) );
     		return ( isValidResponse(response1) && isValidResponse(response2) );
 	}
-
 }
-
-
-
 
 
 
