@@ -3,7 +3,7 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-// this part schall be changed ----------------------------------
+// this part shall be changed ----------------------------------
 const char* ssid = "your wifi"; 
 const char* password = "your password";
 const char* mqtt_server = "your mqtt server ip address"; 
@@ -11,7 +11,7 @@ const char* mqtt_client_id = "brink2"; // Unique client id
 const int mqtt_Port = 1883; 
 const char* mqtt_User = "your mqtt user"; 
 const char* mqtt_Password = "your mqtt server password"; 
-//float maxVent = 2.49; //it means 249 m/h3 - max avilable flow in my Brink - not used/needed
+//float maxVent = 2.49; //it means 249 m/h3 - max available flow in my Brink - not used/needed
 const unsigned long readPeriod = 1500; // 1000 = every second; set between 1000 - 5000
 const unsigned long readPeriod_bypass = 120000; // Set +15000 - OT disconnection needed for bypass work
 //-----------------------------------------------------------------------
@@ -35,8 +35,8 @@ bool vmode, vmode_old = 0;      //ventilation mode
 bool bypass, bypass_old = 1;    //bypass mode
 bool filter, filter_old = 1;    //filter replacement indicator
 
-int pressin, pressin_old = 0;   //presure input duct [Pa]
-int pressout, pressout_old = 0; //preasure output duct [Pa]
+int pressin, pressin_old = 0;   //pressure input duct [Pa]
+int pressout, pressout_old = 0; //pressure output duct [Pa]
 int vstep1, vstep1_old = 50;    //U1
 int vstep2, vstep2_old = 150;   //U2
 int vstep3, vstep3_old = 300;   //U3
@@ -90,14 +90,14 @@ void MqttCallback(char* topic, byte* payload, unsigned int length) {
    if(strcmp(topic, "brink/U5/set") == 0) {
       ot.setBrinkTSP(U5, atoi((char *)payload)*2 );
       delay(100);
-      refreshAll(); // change of U5 triggers refresh of other paramteres
+      refreshAll(); // change of U5 triggers refresh of other parameters
    }
    if(strcmp(topic, "brink/I1/set") == 0)ot.setBrinkTSP(I1, atoi((char *)payload)+ 100 );
     
-   // HW Circulation pump swith - option
+   // HW Circulation pump switch - option
    if(strcmp(topic, "brink/HWCP/set") == 0)  {
-      if ( *payload == '1' ) digitalWrite(HWCPin, LOW); // realy switch on
-      if ( *payload == '0' ) digitalWrite(HWCPin, HIGH); // realy swich off
+      if ( *payload == '1' ) digitalWrite(HWCPin, LOW); // really switch on
+      if ( *payload == '0' ) digitalWrite(HWCPin, HIGH); // really switch off
   }
   
 }
@@ -114,7 +114,7 @@ void setup()
       delay(500);
     }
     Serial.println("");
-    Serial.print("IP Addresss :");
+    Serial.print("IP Address :");
     Serial.print(WiFi.localIP());
 
     mqttClient.setServer(mqtt_server, mqtt_Port); 
@@ -130,8 +130,7 @@ void setup()
     if (bypass == 1 ) readOT = readPeriod_bypass;
     else readOT = readPeriod;
     
-    
-// Floor heting pump switch - option
+    // Floor heting pump switch - option
     pinMode(HWCPin, OUTPUT); 
     digitalWrite(HWCPin, HIGH); 
 }
@@ -144,11 +143,11 @@ void refreshAll()
 
     mqttClient.publish("brink/TempExhIn/get", String(tOut).c_str());
      
-    mqttClient.publish("brink/FauiltIndication/get", String(fault).c_str()); 
+    mqttClient.publish("brink/FaultIndication/get", String(fault).c_str());
 
     mqttClient.publish("brink/VentilationMode/get", String(vmode).c_str());
  
-    mqttClient.publish("brink/BypassStaus/get", String(bypass).c_str());
+    mqttClient.publish("brink/BypassStatus/get", String(bypass).c_str());
   
     mqttClient.publish("brink/FilterDirty/get", String(filter).c_str());
    
@@ -251,7 +250,7 @@ void ReadBrinkParameters()
        
   bypass = ot.getBrinkTSP(BypassStatus);         // ot.getBypassStatus() - this method does not work
   if (bypass != bypass_old) {
-     mqttClient.publish("brink/BypassStaus/get", String(bypass).c_str());
+     mqttClient.publish("brink/BypassStatus/get", String(bypass).c_str());
      bypass_old = bypass;
   }
 
@@ -262,13 +261,13 @@ void ReadBrinkParameters()
   }
 
   pressin = ot.getBrink2TSP(CPID);
-  if ( abs(pressin - pressin_old) > 1 ) { //reduce data publication due frequent slight changes of preassure
+  if ( abs(pressin - pressin_old) > 1 ) { //reduce data publication due frequent slight changes of pressure
       mqttClient.publish("brink/CPID/get", String(pressin).c_str());
       pressin_old = pressin;
   }
  
   pressout = ot.getBrink2TSP(CPOD); 
-  if ( abs(pressout - pressout_old) > 1)  {  //reduce data publication due frequent slight changes of preassure
+  if ( abs(pressout - pressout_old) > 1)  {  //reduce data publication due frequent slight changes of pressure
       mqttClient.publish("brink/CPOD/get", String(pressout).c_str());
       pressout_old = pressout;
   }
