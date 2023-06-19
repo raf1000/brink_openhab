@@ -51,7 +51,7 @@ After successful setting you shall see something similar to:
 - *getBrink2TSP(parameter)/setBrink2TSP(parameter)* for 2bytes parameters (ex. U1, U2, U3, Max Vol, CPOD, CPID, .. )
 
 * I have only U1, U2, U3, U4, U5 and I1 as read/write. In my case changes of other Brink`s adjustable parameters in openHAB are not practical (for example I do not have a preheater). But if needed you can update the .ino program (then add channels and items in openHAB) to read/write them as well.
-6.  I have noticed that Opentherm protocol connection can work in parallel with multiple switch (3 way switch). After switching from Step 1 to Stpe2/3, the 3 way switch overrides the ventilation capacity set up by OpenTherm. In suh a situation 3 way swith force Brink to run according to U2 or U3 parameter and all other parameters (ex preassure, temperature,.. ) are avalable.
+6.  I have noticed that Opentherm protocol connection can work in parallel with multiple switch (3-way switch). After switching from Step 1 to Step2/3, the 3-way switch overrides the ventilation capacity set up by OpenTherm. In such case the 3-way swith force Brink to run according to U2 or U3 parameter and all other parameters (ex preassure, temperature,.. ) are available.
 7.  After restarting openHAB it might be needed to reset the converter in order to populate slow changing parameters in openHAB (unless you want to use "restore" in openHAB). Repopulation of parameters can also be done by any change of U5 parameter visible in sitemap.
 8.  Seems that none of the standard bits (LB2, LB3, HB1, HB2) of the Msg=70 in OT protocol is updated by Brink Renovent when bypass position is changed. But I have identified a TSP which conveys such information and it is implemented in the .ino program.
 
@@ -64,7 +64,7 @@ I have elaborated the following workaround (included in the Brink_HR_bypass.ino 
 (*) when bypass shall be open (U4 and U5 conditions are met) opentherm is connecting to Brink Renovent HR periodically
 - parameter *readPeriod_bypass* shall be set to 20 seconds minimum(20 000)
 - in the program I have set up 2 minutes for this parameter, which means that every 2 minutes your info about Brink parameters will be read from Brink  and updated in openHAB
-- writing/changing values in Brink are on-line 
+- writing/changing values in Brink are on-line (but you may need to wait until a change is visible)
 
 (**) in such a periodic connection mode you shall NOT control ventilation capacity using ot.setVentilation() methood but only by changing U1 parameter. 
 - it is important to ensure that both parameter U1 and ot.setVentilation() are set at the same level to avoid frequent changes of Brink`s ventilators speed
