@@ -4,13 +4,13 @@
 #include <PubSubClient.h>
 
 // this part schall be changed ----------------------------------
-const char* ssid = "RAFAL_WIFI"; 
-const char* password = "rafal007";
-const char* mqtt_server = "192.168.0.134"; 
+const char* ssid = "your WIFI"; 
+const char* password = "your password";
+const char* mqtt_server = "IP"; 
 const char* mqtt_client_id = "brink2"; // Unique client id
 const int mqtt_Port = 1883; 
 const char* mqtt_User = "openhabian"; 
-const char* mqtt_Password = "moskit01"; 
+const char* mqtt_Password = "password"; 
 
 const unsigned long readPeriod = 1500; // 1000 = every second; set between 1000 - 5000
 const unsigned long readPeriod_bypass = 120000; // Set +15000 - OT disconnection needed for bypass work
