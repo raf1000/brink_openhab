@@ -161,9 +161,10 @@ enum BrinkTSPindex {
 	I13,	// Filter message on/off (1=on)
 	I14,	// Option PCB present (0 = no)
 	I15,	// Heat recovery configuration (0=heat recovery, 1 = central heating + heat recovery)
-	I16,	// Fan off 
-	I17,	// Repeat time (hours)
-	I18,	// Minimum swith-off time fan(s), (seconds)
+	I16,	// Fan setting for central heating + heat recovery
+	I17,	// Repeat time in hours for switching off the fan(s) selected under I16
+	I18,	// Maximum switch-off time in seconds for the fan(s) selected under I16
+	I19,	// Minimum switch-off time in seconds for the fan(s) selected under I16 
 	
 	P1 = 31,// option PCB: air volume of the supply volume in case of emergency
 	P2, 	// option PCB: air volume of the exhaust fan in case of emergency 
