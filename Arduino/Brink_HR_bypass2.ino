@@ -218,7 +218,7 @@ void loop()
     }
     if (sem_bypass == 1) //bypass is OPEN
     {  
-       if ( (tOut < tU5/2) || (tIn < tU4/2) || (tIn > tOut)  ) //if true close bypass
+       if ( (tOut <= tU5/2) || (tIn <= tU4/2) || (tIn >= tOut)  ) //if true close bypass
        {
           mqttClient.publish("brink/OpenThermStatus/get","WAIT"); // wait for bypass change
           delay(150000); //stop 2,5 min
