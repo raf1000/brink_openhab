@@ -12,8 +12,8 @@ const int mqtt_Port = 1883;
 const char* mqtt_User = "your user"; 
 const char* mqtt_Password = "your IP"; 
 
-const unsigned long readPeriod = 1500; // 1000 = every second; set between 1000 - 5000
-const unsigned long readPeriod_bypass = 120000; // Set +15000 - OT disconnection needed for bypass work
+const unsigned long readPeriod = 1500; // 1000 = every second; set between 1000 - 5000 (period when bypass is closed)
+const unsigned long readPeriod_bypass = 120000; // Set +15000 - OT disconnection needed for bypass work (period when bypass is open)
 //-----------------------------------------------------------------------
 
 const char* mqtt_topic_in = "brink/+/set"; //subscribe commands from Openhab
@@ -50,7 +50,7 @@ int fcode, fcode_old = 0;       //fault code
 int msg, msg_old = 0;           //C-operation message
 int param1, param1_old = 100;   //I1- imbalance parameter
 long lRssi, lRssi_old = 0;      //Wifi signal level
-bool sem_bypass;                //semaphore for bypass workaround
+// bool sem_bypass;                //semaphore for bypass workaround
 
 
 void ICACHE_RAM_ATTR handleInterrupt() {
@@ -88,7 +88,8 @@ void MqttCallback(char* topic, byte* payload, unsigned int length) {
    {
       ot.setBrinkTSP(U1, atoi((char *)payload) );
 //      delay(100);
-      if (sem_bypass == 1 ) ot.setVentilation( atoi((char *)payload)* 100 / maxVent );
+//      if (sem_bypass == 1 ) ot.setVentilation( atoi((char *)payload)* 100 / maxVent );
+       if (bypass == 1 ) ot.setVentilation( atoi((char *)payload)* 100 / maxVent );
    }
    if(strcmp(topic, "brink/U2/set") == 0) ot.setBrinkTSP(U2, atoi((char *)payload) );
    if(strcmp(topic, "brink/U3/set") == 0) {
@@ -135,9 +136,9 @@ void setup()
     maxVent = ot.getBrink2TSP(MaxVol);
     ReadBrinkParameters();
     refreshAll();
-    sem_bypass = bypass;
-    if (bypass == 1 ) readOT = readPeriod_bypass;
-    else readOT = readPeriod;
+//    sem_bypass = bypass;
+    if (bypass == 1 ) readOT = readPeriod_bypass; //bypass open
+    else readOT = readPeriod; //bypass closed
     
     
 // Floor heting pump switch - option
@@ -205,8 +206,8 @@ void loop()
       lRssi_old = lRssi;
     }
     
-    // Workaround for bypass change and keeping change when U4 and U5 conditions are met
-    if (sem_bypass == 0)  //bypass is CLOSED
+    // Workaround for bypass change and keeping change when U4 and U5 conditions are met - Seems not working
+/*    if (sem_bypass == 0)  //bypass is CLOSED
     {
        if ( (tOut > tU5/2) && (tIn > tU4/2) && (tIn < tOut) ) // if true open bypass, 
        {
@@ -225,7 +226,28 @@ void loop()
           readOT = readPeriod;
           sem_bypass = 0; 
        }
-    }
+    } */
+ // NEW Workaround for bypass change and keeping change when U4 and U5 conditions are met
+    if ( (tOut >= tU5/2) && (tIn >= tU4/2) && (tIn <= tOut) ) 
+    {
+        if ( bypass == 0 ) 
+        {
+            mqttClient.publish("brink/OpenThermStatus/get", "WAIT"); // wait for bypass change
+            delay(150000); //stop 2,5 min  
+            readOT = readPeriod_bypass;
+        }
+        else if ( readOT == readPeriod ) readOT = readPeriod_bypass;
+     }
+    else
+    {
+        if ( bypass == 1 )
+        {
+            mqttClient.publish("brink/OpenThermStatus/get","WAIT"); // wait for bypass change
+            delay(150000); //stop 2,5 min
+            readOT = readPeriod;
+        }
+        else if ( readOT == readPeriod_bypass ) readOT = readPeriod;
+    }  
     startTime = currentTime;  
   }
   
